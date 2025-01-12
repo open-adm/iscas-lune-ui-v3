@@ -1,0 +1,15 @@
+export const listaDeIcones = {
+  close: "si:close-fill",
+  home: "proicons:home",
+  categoria: "mdi:category-plus-outline",
+  produto: "fluent-mdl2:product-variant",
+  lojaParceia: "mdi:store-check-outline",
+  flechaDireita: "pepicons-print:arrow-right",
+  whatsApp: "mdi:whatsapp",
+  instagram: "mdi:instagram",
+  facebook: "mdi:facebook",
+  carrinho: "lineicons:cart-2",
+  etiqueta: "entypo:price-tag",
+  avatar: "stash:user-avatar-light",
+  filtro: "mynaui:filter-solid",
+};
