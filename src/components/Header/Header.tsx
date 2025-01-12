@@ -7,6 +7,8 @@ import { MenuApp } from "../Menu/MenuApp";
 import styled from "./Header.module.css";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
+import { MenuUsuarioApp } from "../MenuUsuario/MenuUsuarioApp";
+import { rotas } from "@/config/ConfigRotas";
 
 const fontSize = ".75rem";
 
@@ -40,31 +42,10 @@ export function Header() {
           hover={{
             color: "#000000",
           }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate(rotas.home)}
         />
         <BoxApp display="flex" alignItems="center" gap=".5rem">
-          {!isMobile && (
-            <>
-              <TextApp
-                titulo="Pesquisar"
-                fontSize={fontSize}
-                cursor="pointer"
-                hover={{ color: "#000000" }}
-              />
-              <TextApp
-                titulo="Minha conta"
-                fontSize={fontSize}
-                cursor="pointer"
-                hover={{ color: "#000000" }}
-              />
-            </>
-          )}
-          <TextApp
-            titulo="Carrinho"
-            fontSize={fontSize}
-            cursor="pointer"
-            hover={{ color: "#000000" }}
-          />
+          <MenuUsuarioApp />
         </BoxApp>
       </header>
     </>

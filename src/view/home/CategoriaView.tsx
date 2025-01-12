@@ -8,6 +8,7 @@ import { useThemeApp } from "@/hooks/UseThemeApp";
 import { ICategoria } from "@/types/Categoria";
 import styles from "./CategoriaView.module.css";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
+import { rotas } from "@/config/ConfigRotas";
 
 interface propsCategoriaView {
   categorias: ICategoria[];
@@ -41,7 +42,7 @@ export function CategoriaView(props: propsCategoriaView) {
             >
               <TextApp
                 titulo="Visualizar"
-                onClick={() => navigate(`/categoria/${categoria.id}`)}
+                onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
               />
               <IconApp icon={listaDeIcones.flechaDireita} />
             </BoxApp>

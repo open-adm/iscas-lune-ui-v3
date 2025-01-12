@@ -14,6 +14,7 @@ interface propsGridApp {
 export function GridApp(props: propsGridApp) {
   return (
     <Grid2
+      width="100%"
       spacing={props.spacing}
       container={props.container}
       size={{ xs: props.xs, sm: props.sm }}

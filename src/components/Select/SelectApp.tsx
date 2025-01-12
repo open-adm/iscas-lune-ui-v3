@@ -9,6 +9,7 @@ import {
 interface propsSelectApp {
   opcoes: any[];
   value?: any;
+  defaultValue?: any;
   label: string;
   id?: string;
   name?: string;
@@ -33,6 +34,7 @@ export default function SelectApp(props: propsSelectApp) {
         value={props.value}
         label={props.label}
         onChange={handleChange}
+        defaultValue={props.defaultValue}
       >
         {props.opcoes.map((opt) => (
           <MenuItem value={opt[props.keyValue]} key={opt[props.keyValue]}>

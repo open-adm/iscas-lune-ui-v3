@@ -25,5 +25,6 @@ export function useThemeApp() {
       success: theme.palette.success.main,
     },
     isMobile: !matches,
+    amarelo: "#fced18",
   };
 }

@@ -2,6 +2,9 @@ import { Button as ButtonMui } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import { ReactNode } from "react";
 import { IconApp } from "../Icon/IconApp";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { BoxApp } from "../Box/BoxApp";
+import { LoadingApp } from "../Loading/LoadingApp";
 
 export interface propsButton {
   title?: string;
@@ -25,7 +28,7 @@ export interface propsButton {
 
 export function Button(props: propsButton) {
   return (
-    <ButtonMui
+    <LoadingButton
       {...props}
       onClick={(e) => {
         e.preventDefault();
@@ -33,6 +36,18 @@ export function Button(props: propsButton) {
           props.onClick();
         }
       }}
+      loading={props.loading}
+      loadingIndicator={
+        <BoxApp
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap="1rem"
+        >
+          Carregando...
+          <CircularProgress size={20} />
+        </BoxApp>
+      }
       tabIndex={props.tabIndex}
       autoFocus={props.autoFocus}
       disabled={props.disabled || props.loading}
@@ -50,11 +65,7 @@ export function Button(props: propsButton) {
       }}
       endIcon={props.endIcon ? <IconApp icon={props.endIcon} /> : undefined}
     >
-      {!props.loading ? props.title ?? "Continuar" : `Aguarde...`}
-      {props.loading && (
-        <CircularProgress sx={{ marginLeft: "10px" }} size={20} />
-      )}
-      {props.children}
-    </ButtonMui>
+      {props.title ?? "Continuar"}
+    </LoadingButton>
   );
 }

@@ -1,19 +1,18 @@
-import type { Metadata } from "next";
+"use client";
+
 import "./globals.css";
 import { Header } from "@/components/Header/Header";
 import { AppThemeProvider } from "@/context/AppThemeContext";
 import { Footer } from "@/components/Footer/Footer";
-
-export const metadata: Metadata = {
-  title: "Iscas lune",
-  description: "Bem vindo",
-};
+import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
+import { AppAuthProvider } from "@/context/AppAuthContext";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const Snack = useSnackbar();
   return (
     <html lang="pt-BR">
       <head>
@@ -25,13 +24,16 @@ export default function RootLayout({
         ></link>
       </head>
       <AppThemeProvider>
-        <body className="body-principal">
-          <div className="container-div">
-            <Header />
-            <main className="container-main">{children}</main>
-            <Footer />
-          </div>
-        </body>
+        <AppAuthProvider>
+          <body className="body-principal">
+            <Snack.Componet />
+            <div className="container-div">
+              <Header />
+              <main className="container-main">{children}</main>
+              <Footer />
+            </div>
+          </body>
+        </AppAuthProvider>
       </AppThemeProvider>
     </html>
   );

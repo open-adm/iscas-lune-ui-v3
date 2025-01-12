@@ -1,5 +1,5 @@
 import { ViewProduto } from "@/view/produto/ViewProduto";
 
-export default async function ProdutoPageView() {
+export default function ProdutoPageView() {
   return <ViewProduto />;
 }

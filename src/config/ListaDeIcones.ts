@@ -12,4 +12,7 @@ export const listaDeIcones = {
   etiqueta: "entypo:price-tag",
   avatar: "stash:user-avatar-light",
   filtro: "mynaui:filter-solid",
+  senha: "mdi:password-outline",
+  sair: "material-symbols-light:logout-rounded",
+  pedido: "lsicon:order-outline",
 };

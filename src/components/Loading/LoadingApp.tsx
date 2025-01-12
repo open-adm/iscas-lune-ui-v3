@@ -1,12 +1,14 @@
 import { HashLoader } from "react-spinners";
 import { BoxApp } from "../Box/BoxApp";
 import { TextApp } from "../Text/TextApp";
+import { flexDirection } from "../Box/types";
 
 interface propsLoadingApp {
   marginTop?: string;
   height?: string;
   width?: string;
   texto?: string;
+  flexDirection?: flexDirection;
 }
 
 export function LoadingApp(props: propsLoadingApp) {
@@ -17,7 +19,7 @@ export function LoadingApp(props: propsLoadingApp) {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      flexDirection="column"
+      flexDirection={props.flexDirection ?? "column"}
       gap="1rem"
       marginTop={props.marginTop}
     >

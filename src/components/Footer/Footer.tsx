@@ -6,6 +6,7 @@ import { IconButtonTooltipApp } from "../Icon/IconButtonTooltipApp";
 import { TextApp } from "../Text/TextApp";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useListarCategoriasApi } from "@/api/UseListarCategoriasApi";
+import { rotas } from "@/config/ConfigRotas";
 
 export function Footer() {
   const { categorias } = useListarCategoriasApi();
@@ -26,7 +27,7 @@ export function Footer() {
           <TextApp titulo="Categorias" fontWeight={600} />
           {categorias.map((categoria) => (
             <TextApp
-              onClick={() => navigate(`/categoria/${categoria.id}`)}
+              onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
               cursor="pointer"
               key={categoria.id}
               titulo={categoria.descricao}

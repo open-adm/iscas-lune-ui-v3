@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { IconApp } from "../Icon/IconApp";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
+import { rotas } from "@/config/ConfigRotas";
 
 interface propsMenuApp {
   open: boolean;
@@ -39,7 +40,7 @@ export function MenuApp(props: propsMenuApp) {
         <BoxApp>
           <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu("/")}>
+              <ListItemButton onClick={() => navegarMenu(rotas.home)}>
                 <ListItemIcon>
                   <IconApp icon={listaDeIcones.home} />
                 </ListItemIcon>
@@ -47,7 +48,7 @@ export function MenuApp(props: propsMenuApp) {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu("/categoria")}>
+              <ListItemButton onClick={() => navegarMenu(rotas.categoria)}>
                 <ListItemIcon>
                   <IconApp icon={listaDeIcones.categoria} />
                 </ListItemIcon>
@@ -55,7 +56,7 @@ export function MenuApp(props: propsMenuApp) {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu("/produto")}>
+              <ListItemButton onClick={() => navegarMenu(rotas.produto)}>
                 <ListItemIcon>
                   <IconApp icon={listaDeIcones.produto} />
                 </ListItemIcon>
@@ -63,7 +64,7 @@ export function MenuApp(props: propsMenuApp) {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => navegarMenu(rotas.lojaParceira)}>
                 <ListItemIcon>
                   <IconApp icon={listaDeIcones.lojaParceia} />
                 </ListItemIcon>

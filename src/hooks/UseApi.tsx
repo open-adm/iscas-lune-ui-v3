@@ -1,10 +1,13 @@
 "use client";
 
 import axios, { GenericAbortSignal } from "axios";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { keysLocalStorage } from "@/config/keysLocalStorage";
 import { useLocalStorage } from "./UseLocalStorage";
 import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
+import { useNavigateApp } from "./UseNavigateApp";
+import { rotas } from "@/config/ConfigRotas";
+import { AppAuthContext } from "@/context/AppAuthContext";
 
 export type TypeMethod = "GET" | "POST" | "PUT" | "DELETE";
 interface propsUseApi {
@@ -34,7 +37,8 @@ function getMessage(method: TypeMethod): string {
 }
 
 export function useApi(props: propsUseApi) {
-  //const { logout } = useAuth();
+  const { sair } = useContext(AppAuthContext);
+  const { navigate } = useNavigateApp();
   const URL_API = process.env.NEXT_PUBLIC_URL_API;
   const snack = useSnackbar();
   const { getItem, setItem } = useLocalStorage();
@@ -53,6 +57,24 @@ export function useApi(props: propsUseApi) {
   }, []);
 
   function erro(error: any) {
+    const mensagem = error.response?.data?.mensagem;
+    if (error.response?.status === 401) {
+      if (mensagem) {
+        snack.show(mensagem, "error");
+      } else {
+        snack.show(
+          "Ocorreu um erro interno, tente novamente mais tarde!",
+          "error"
+        );
+      }
+      sair();
+      navigate(rotas.home);
+      return;
+    }
+    if (mensagem) {
+      snack.show(mensagem, "error");
+      return;
+    }
     snack.show("Ocorreu um erro interno, tente novamente mais tarde!", "error");
   }
 
