@@ -6,14 +6,26 @@ import { Button } from "../Button/ButtonApp";
 import { CardFoto } from "./CardFoto";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { CardPesoTamanho } from "./CardPesoTamanho";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
+import { cleanFormatMoney } from "@/utils/FormatMoney";
 
 interface propsCardProduto {
   produto: IProduto;
+  desabilitarBtnAddCarrinho?: boolean;
+  onBlur?: (produto: IProduto) => void;
+  habilitarExclusaoProduto?: boolean;
+  index?: number;
 }
 
 export function CardProduto(props: propsCardProduto) {
   const [produto, setProduto] = useState(props.produto);
+  const {
+    adicionarItens,
+    statusAdicionar,
+    excluirProdutoCarrinho,
+    statusExcluirItem,
+  } = useContext(AppCarrinhoContext);
   const { backgroundColor, borderRadius, isMobile } = useThemeApp();
   const width = isMobile ? "100%" : "50%";
 
@@ -36,6 +48,69 @@ export function CardProduto(props: propsCardProduto) {
         ...produto,
         tamanhos: novosTamanhos,
       });
+    }
+  }
+
+  async function adicionar() {
+    const tamanhos = produto.tamanhos
+      .filter((x) => x.precoProduto?.quantidade)
+      .map((x) => {
+        return {
+          tamanhoId: x.id,
+          produtoId: produto.id,
+          quantidade: cleanFormatMoney(x.precoProduto?.quantidade) ?? 0,
+        };
+      });
+    const pesos = produto.pesos
+      .filter((x) => x.precoProduto?.quantidade)
+      .map((x) => {
+        return {
+          pesoId: x.id,
+          produtoId: produto.id,
+          quantidade: cleanFormatMoney(x.precoProduto?.quantidade) ?? 0,
+        };
+      });
+
+    if (tamanhos.length === 0 && pesos.length === 0) {
+      return;
+    }
+
+    await adicionarItens([...pesos, ...tamanhos]);
+
+    setProduto({
+      ...produto,
+      pesos: produto.pesos.map((peso) => {
+        return {
+          ...peso,
+          precoProduto: {
+            ...peso.precoProduto,
+            quantidade: undefined,
+          } as any,
+        };
+      }),
+      tamanhos: produto.tamanhos.map((tamanho) => {
+        return {
+          ...tamanho,
+          precoProduto: {
+            ...tamanho.precoProduto,
+            quantidade: undefined,
+          } as any,
+        };
+      }),
+    });
+  }
+
+  async function excluir() {
+    if (props.index === undefined || props.index === null) {
+      return;
+    }
+
+    await excluirProdutoCarrinho(props.index);
+  }
+
+  function onBlur() {
+    if (props.onBlur) {
+      props.onBlur(produto);
     }
   }
 
@@ -83,56 +158,81 @@ export function CardProduto(props: propsCardProduto) {
             titulo={`#${produto.referencia ?? ""}`}
           />
         </BoxApp>
-        {produto.pesos.length > 0 && (
-          <BoxApp
-            width="100%"
-            display="flex"
-            flexDirection="column"
-            gap=".5rem"
-          >
-            <TextApp titulo="Pesos disponíveis" marginBotton="1rem" />
-            {produto.pesos.map((peso, index) => (
-              <CardPesoTamanho
-                id={peso.id}
-                onChange={(value) => onChangePeso(index, value)}
-                descricao={peso.descricao}
-                key={peso.id}
-                precoProduto={peso.precoProduto}
+        <form
+          style={{ width: "100%" }}
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await adicionar();
+          }}
+        >
+          {produto.pesos.length > 0 && (
+            <BoxApp
+              width="100%"
+              display="flex"
+              flexDirection="column"
+              gap=".5rem"
+            >
+              <TextApp titulo="Pesos disponíveis" marginBotton="1rem" />
+              {produto.pesos.map((peso, index) => (
+                <CardPesoTamanho
+                  id={peso.id}
+                  onChange={(value) => onChangePeso(index, value)}
+                  descricao={peso.descricao}
+                  key={peso.id}
+                  precoProduto={peso.precoProduto}
+                  onBlur={onBlur}
+                />
+              ))}
+            </BoxApp>
+          )}
+          {produto.tamanhos.length > 0 && (
+            <BoxApp
+              width="100%"
+              display="flex"
+              flexDirection="column"
+              gap=".5rem"
+            >
+              <TextApp
+                fontSize="12px"
+                titulo="Tamanhos disponíveis"
+                marginBotton="1rem"
               />
-            ))}
-          </BoxApp>
-        )}
-        {produto.tamanhos.length > 0 && (
-          <BoxApp
-            width="100%"
-            display="flex"
-            flexDirection="column"
-            gap=".5rem"
-          >
-            <TextApp
-              fontSize="12px"
-              titulo="Tamanhos disponíveis"
-              marginBotton="1rem"
-            />
-            {produto.tamanhos.map((tamanho, index) => (
-              <CardPesoTamanho
-                id={tamanho.id}
-                onChange={(value) => onChangeTamanho(index, value)}
-                key={tamanho.id}
-                descricao={tamanho.descricao}
-                precoProduto={tamanho.precoProduto}
+              {produto.tamanhos.map((tamanho, index) => (
+                <CardPesoTamanho
+                  id={tamanho.id}
+                  onChange={(value) => onChangeTamanho(index, value)}
+                  key={tamanho.id}
+                  descricao={tamanho.descricao}
+                  precoProduto={tamanho.precoProduto}
+                  onBlur={onBlur}
+                />
+              ))}
+            </BoxApp>
+          )}
+          <BoxApp width="100%" marginTop="1rem">
+            {!props.desabilitarBtnAddCarrinho && (
+              <Button
+                onClick={adicionar}
+                endIcon={listaDeIcones.carrinho}
+                title={isMobile ? "Adicionar" : "Adicionar ao carrinho"}
+                variant="contained"
+                width="100%"
+                loading={statusAdicionar === "loading"}
+                type="submit"
               />
-            ))}
+            )}
+            {props.habilitarExclusaoProduto && (
+              <Button
+                onClick={excluir}
+                endIcon={listaDeIcones.lixeira}
+                title={"Excluir"}
+                variant="text"
+                width="100%"
+                loading={statusExcluirItem === "loading"}
+              />
+            )}
           </BoxApp>
-        )}
-        <BoxApp width="100%" marginTop="1rem">
-          <Button
-            endIcon={listaDeIcones.carrinho}
-            title={isMobile ? "Adicionar" : "Adicionar ao carrinho"}
-            variant="contained"
-            width="100%"
-          />
-        </BoxApp>
+        </form>
       </BoxApp>
     </BoxApp>
   );

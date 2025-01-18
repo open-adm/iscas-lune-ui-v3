@@ -1,13 +1,14 @@
 "use client";
 
 import axios, { GenericAbortSignal } from "axios";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { keysLocalStorage } from "@/config/keysLocalStorage";
 import { useLocalStorage } from "./UseLocalStorage";
 import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
 import { useNavigateApp } from "./UseNavigateApp";
 import { rotas } from "@/config/ConfigRotas";
 import { AppAuthContext } from "@/context/AppAuthContext";
+import { StatusRequisicao } from "@/types/StatusRequisicao";
 
 export type TypeMethod = "GET" | "POST" | "PUT" | "DELETE";
 interface propsUseApi {
@@ -16,6 +17,7 @@ interface propsUseApi {
   naoRenderizarErro?: boolean;
   naoRenderizarResposta?: boolean;
   header?: any;
+  statusInicial?: StatusRequisicao;
 }
 
 interface propsFecth {
@@ -37,6 +39,10 @@ function getMessage(method: TypeMethod): string {
 }
 
 export function useApi(props: propsUseApi) {
+  const [status, setStatus] = useState<StatusRequisicao | undefined>(
+    props.statusInicial
+  );
+  const [error, setError] = useState<any>();
   const { sair } = useContext(AppAuthContext);
   const { navigate } = useNavigateApp();
   const URL_API = process.env.NEXT_PUBLIC_URL_API;
@@ -50,6 +56,8 @@ export function useApi(props: propsUseApi) {
 
   useEffect(() => {
     return () => {
+      setError(undefined);
+      setStatus(undefined);
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
@@ -85,6 +93,9 @@ export function useApi(props: propsUseApi) {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
+      if (!status || status !== "loading") {
+        setStatus("loading");
+      }
       abortControllerRef.current = new AbortController();
       const { signal } = abortControllerRef.current;
       const jwt = getItem(keysLocalStorage.jwt);
@@ -113,13 +124,16 @@ export function useApi(props: propsUseApi) {
       if (responseHeader["novotoken"]) {
         setItem(keysLocalStorage.jwt, responseHeader["novotoken"]?.toString());
       }
+      setStatus("success");
       return response?.data as T;
-    } catch (error: any) {
-      if (error?.code === "ERR_CANCELED") {
+    } catch (err: any) {
+      setError(err);
+      setStatus("error");
+      if (err?.code === "ERR_CANCELED") {
         return undefined;
       }
       if (!props.naoRenderizarErro) {
-        erro(error);
+        erro(err);
       }
       return undefined;
     }
@@ -127,5 +141,7 @@ export function useApi(props: propsUseApi) {
 
   return {
     action,
+    status,
+    error,
   };
 }

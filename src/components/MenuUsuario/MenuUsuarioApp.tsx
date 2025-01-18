@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Divider,
   IconButton,
   ListItemIcon,
   Menu,
@@ -14,6 +13,7 @@ import { BoxApp } from "../Box/BoxApp";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { rotas } from "@/config/ConfigRotas";
 import { AppAuthContext } from "@/context/AppAuthContext";
+import { DividerApp } from "../Divider/DividerApp";
 
 export function MenuUsuarioApp() {
   const { sair, usuario } = useContext(AppAuthContext);
@@ -90,32 +90,41 @@ export function MenuUsuarioApp() {
       >
         {usuario ? (
           [
-            <MenuItem key="menu-avatar">
+            <MenuItem
+              key="menu-avatar"
+              onClick={() => navigate(rotas.minhaConta)}
+            >
               <ListItemIcon>
                 <IconApp icon={listaDeIcones.avatar} />
               </ListItemIcon>
               Minha conta
             </MenuItem>,
-            <MenuItem key="menu-editar-conta">
+            <MenuItem
+              key="menu-editar-conta"
+              onClick={() => navigate(rotas.editarMinhaConta)}
+            >
               <ListItemIcon>
                 <IconApp icon={listaDeIcones.avatar} />
               </ListItemIcon>
               Editar minha conta
             </MenuItem>,
-            <Divider key="primeiro-diviser" />,
-            <MenuItem key="trocar-senha">
+            <DividerApp width="100%" key="primeiro-diviser" />,
+            <MenuItem
+              key="trocar-senha"
+              onClick={() => navigate(rotas.trocarSenha)}
+            >
               <ListItemIcon>
                 <IconApp icon={listaDeIcones.senha} />
               </ListItemIcon>
               Trocar minha senha
             </MenuItem>,
-            <MenuItem key="menu-pedidos">
+            <MenuItem key="menu-pedidos" onClick={() => navigate(rotas.pedido)}>
               <ListItemIcon>
                 <IconApp icon={listaDeIcones.pedido} />
               </ListItemIcon>
               Meus pedidos
             </MenuItem>,
-            <Divider key="segundo-diviser" />,
+            <DividerApp width="100%" key="segundo-diviser" />,
             <MenuItem onClick={sairClick} key="menu-sair">
               <ListItemIcon>
                 <IconApp icon={listaDeIcones.sair} />

@@ -1,5 +1,5 @@
 import { TodasCategorias } from "@/view/categoria/TodasCategorias";
 
-export default async function CategoriasPageView() {
+export default function CategoriasPageView() {
   return <TodasCategorias />;
 }

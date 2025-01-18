@@ -26,11 +26,9 @@ export function ViewProduto() {
   const { paginacaoProduto } = useProdutoApi();
   const { listarTamanhos } = useTamanhoApi();
   const { listarPesos } = usePesoApi();
-  const { categorias } = useListarCategoriasApi();
+  const listarCategorias = useListarCategoriasApi();
   const { isMobile } = useThemeApp();
   const [pagina, setPagina] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [loadingFiltros, setLoadingFiltros] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [categoria, setCategoria] = useState<string>("");
   const [pesos, setPesos] = useState<IPeso[]>([]);
@@ -44,8 +42,7 @@ export function ViewProduto() {
   });
 
   async function init() {
-    setLoading(true);
-    const response = await paginacaoProduto({
+    const response = await paginacaoProduto.fetch({
       page: pagina,
       categoriaId: categoria,
       pesoId: peso,
@@ -54,35 +51,30 @@ export function ViewProduto() {
     if (response) {
       setPaginacao(response);
     }
-    setLoading(false);
   }
 
   async function carregarFiltros() {
     setOpenModal(true);
-    setLoadingFiltros(true);
-
     if (pesos.length === 0) {
-      const responsePesos = await listarPesos();
+      const responsePesos = await listarPesos.fetch();
       if (responsePesos) {
         setPesos(responsePesos);
       }
     }
 
     if (tamanhos.length === 0) {
-      const responseTamanhos = await listarTamanhos();
+      const responseTamanhos = await listarTamanhos.fetch();
       if (responseTamanhos) {
         setTamanhos(responseTamanhos);
       }
     }
-
-    setLoadingFiltros(false);
   }
 
   useEffect(() => {
     init();
   }, [pagina]);
 
-  if (loading) {
+  if (paginacaoProduto.status === "loading") {
     return <LoadingApp height="300px" marginTop="1rem" />;
   }
 
@@ -130,7 +122,9 @@ export function ViewProduto() {
         </BoxApp>
       </BoxApp>
       <ModalApp close={() => setOpenModal(false)} open={openModal}>
-        {loadingFiltros ? (
+        {listarPesos.status === "loading" ||
+        listarTamanhos.status === "loading" ||
+        listarCategorias.status === "loading" ? (
           <LoadingApp width="350px" height="300px" marginTop="1rem" />
         ) : (
           <form>
@@ -147,7 +141,7 @@ export function ViewProduto() {
                 keyDescricao="descricao"
                 keyValue="id"
                 label="Categoria"
-                opcoes={categorias}
+                opcoes={listarCategorias.categorias ?? []}
                 id="categorias"
                 width="100%"
                 value={categoria}

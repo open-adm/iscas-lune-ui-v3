@@ -13,7 +13,6 @@ import { YupAdapter } from "@/adapters/YupAdapter";
 import { Button } from "@/components/Button/ButtonApp";
 
 export function ViewEsqueceuSenha() {
-  const [loading, setLoading] = useState(false);
   const { shadow, borderRadius } = useThemeApp();
   const { navigate } = useNavigateApp();
   const { esqueceSenha } = useEsqueceuSenhaApi();
@@ -26,14 +25,11 @@ export function ViewEsqueceuSenha() {
   });
 
   async function submit() {
-    setLoading(true);
-    const response = await esqueceSenha(form.values.email);
+    const response = await esqueceSenha.fetch(form.values.email);
     if (response) {
       navigate(rotas.home);
       return;
     }
-
-    setLoading(false);
   }
 
   return (
@@ -89,7 +85,7 @@ export function ViewEsqueceuSenha() {
           <Button
             fullWidth
             title="Resetar senha"
-            loading={loading}
+            loading={esqueceSenha.status === "loading"}
             type="submit"
             variant="contained"
             onClick={form.onSubmit}

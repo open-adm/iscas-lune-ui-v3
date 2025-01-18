@@ -12,6 +12,7 @@ export function useLojaParceiraApi() {
     method: "POST",
     url: "lojas-parceiras/paginacao",
     naoRenderizarResposta: true,
+    statusInicial: "loading",
   });
 
   async function paginacaoLojasParceiras(
@@ -29,7 +30,13 @@ export function useLojaParceiraApi() {
   }
 
   return {
-    todasLojas,
-    paginacaoLojasParceiras,
+    todasLojas: {
+      fetch: todasLojas,
+      status: apiTodas.status,
+    },
+    paginacaoLojasParceiras: {
+      fetch: paginacaoLojasParceiras,
+      status: apiPaginacao.status,
+    },
   };
 }

@@ -26,7 +26,6 @@ import { useEffect, useState } from "react";
 export function ViewLojaParceira() {
   const { paginacaoLojasParceiras } = useLojaParceiraApi();
   const [skip, setSkip] = useState(1);
-  const [loading, setLoading] = useState(false);
   const [paginacao, setPaginacao] = useState<
     IPaginacaoResponse<ILojasParceiras>
   >({
@@ -36,12 +35,10 @@ export function ViewLojaParceira() {
   });
 
   async function init() {
-    setLoading(true);
-    const response = await paginacaoLojasParceiras(skip);
+    const response = await paginacaoLojasParceiras.fetch(skip);
     if (response) {
       setPaginacao(response);
     }
-    setLoading(false);
   }
 
   useEffect(() => {
@@ -63,7 +60,7 @@ export function ViewLojaParceira() {
     };
   }
 
-  if (loading) {
+  if (paginacaoLojasParceiras.status === "loading") {
     return <LoadingApp height="350px" width="100%" />;
   }
 

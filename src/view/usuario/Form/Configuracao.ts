@@ -7,7 +7,7 @@ export const initialValues: IUsuarioCreate = {
   telefone: "",
   cpf: "",
   senha: "",
-  reSenha: ""
+  reSenha: "",
 };
 
 export const schema = new YupAdapter()
@@ -17,6 +17,13 @@ export const schema = new YupAdapter()
   .string("cpf")
   .string("senha")
   .string("reSenha")
+  .build();
+
+export const schemaEdit = new YupAdapter()
+  .email("email")
+  .string("telefone")
+  .string("nome")
+  .string("cpf")
   .build();
 
 export const tiposPessoa = [

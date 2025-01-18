@@ -14,6 +14,9 @@ export function useEsqueceuSenhaApi() {
   }
 
   return {
-    esqueceSenha,
+    esqueceSenha: {
+      fetch: esqueceSenha,
+      status: apiEsqueceuSenha.status,
+    },
   };
 }

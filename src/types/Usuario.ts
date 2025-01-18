@@ -6,6 +6,8 @@ export interface IUsuario extends IBase {
   telefone: string;
   cnpj?: string;
   cpf?: string;
+  pedidosEmAberto?: number;
+  quantidadeDePedido?: number;
 }
 
 export interface IUsuarioCreate {

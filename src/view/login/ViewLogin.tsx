@@ -15,7 +15,6 @@ import { clearMaskCpfCnpj } from "@/utils/MaskCpfCnpj";
 import { AppAuthContext } from "@/context/AppAuthContext";
 
 export function ViewLogin() {
-  const [loading, setLoading] = useState(false);
   const { shadow, borderRadius, amarelo } = useThemeApp();
   const { navigate } = useNavigateApp();
   const { login } = useLoginApi();
@@ -27,8 +26,7 @@ export function ViewLogin() {
   });
 
   async function submit() {
-    setLoading(true);
-    const response = await login({
+    const response = await login.fetch({
       ...form.values,
       cpfCnpj: clearMaskCpfCnpj(form.values.cpfCnpj),
     });
@@ -37,8 +35,6 @@ export function ViewLogin() {
       navigate(rotas.home);
       return;
     }
-
-    setLoading(false);
   }
 
   return (
@@ -115,7 +111,7 @@ export function ViewLogin() {
           <Button
             fullWidth
             title="Login"
-            loading={loading}
+            loading={login.status === "loading"}
             type="submit"
             variant="contained"
             onClick={form.onSubmit}

@@ -12,6 +12,9 @@ export function usePesoApi() {
   }
 
   return {
-    listarPesos,
+    listarPesos: {
+      fetch: listarPesos,
+      status: apiListar.status,
+    },
   };
 }

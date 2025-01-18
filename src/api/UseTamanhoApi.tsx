@@ -12,6 +12,9 @@ export function useTamanhoApi() {
   }
 
   return {
-    listarTamanhos,
+    listarTamanhos: {
+      fetch: listarTamanhos,
+      status: apiListar.status,
+    },
   };
 }

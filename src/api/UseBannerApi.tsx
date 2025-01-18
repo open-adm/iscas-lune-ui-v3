@@ -1,26 +1,21 @@
 import { useApi } from "@/hooks/UseApi";
 import { IBanner } from "@/types/Banner";
-import { StatusRequisicao } from "@/types/StatusRequisicao";
 import { useEffect, useState } from "react";
+import { bannerRotasApi } from "./rotas/BannerRotasApi";
 
 export function useBannerApi() {
-  const [status, setStatus] = useState<StatusRequisicao>();
   const [banners, setBanners] = useState<IBanner[]>([]);
   const apiBanner = useApi({
     method: "GET",
-    url: "banners/list",
+    url: bannerRotasApi.listaBanner,
+    statusInicial: "loading",
   });
 
   async function listarBanners() {
-    setStatus("loading");
     const response = await apiBanner.action<IBanner[]>();
     if (response) {
       setBanners(response);
-      setStatus("success");
-      return;
     }
-
-    setStatus("error");
   }
 
   useEffect(() => {
@@ -29,6 +24,6 @@ export function useBannerApi() {
 
   return {
     banners,
-    status,
+    status: apiBanner.status,
   };
 }

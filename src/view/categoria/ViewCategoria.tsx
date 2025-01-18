@@ -13,22 +13,20 @@ import { CardProduto } from "@/components/CardProduto/CardProduto";
 export function ViewCategoria(props: IdPage) {
   const { listarPorCategorias } = useProdutoApi();
   const [produtos, setProdutos] = useState<IProduto[]>([]);
-  const [loading, setLoading] = useState(true);
 
   async function init() {
-    const response = await listarPorCategorias(props.id);
+    const response = await listarPorCategorias.fetch(props.id);
     if (response) {
       setProdutos(response);
     }
-    setLoading(false);
   }
 
   useEffect(() => {
     init();
   }, []);
 
-  if (loading) {
-    return <LoadingApp height="300px" marginTop="1rem" />;
+  if (listarPorCategorias.status === "loading") {
+    return <LoadingApp height="300px" marginTop="1rem" texto="Categorias..." />;
   }
 
   const categoria =

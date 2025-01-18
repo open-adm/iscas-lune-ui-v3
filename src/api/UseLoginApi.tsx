@@ -5,7 +5,7 @@ import { IResponseLogin } from "@/types/ResponseLogin";
 export function useLoginApi() {
   const apiLogin = useApi({
     method: "POST",
-    url: "login/usuario",
+    url: "login/usuario-v2",
     naoRenderizarResposta: true,
   });
 
@@ -16,6 +16,9 @@ export function useLoginApi() {
   }
 
   return {
-    login,
+    login: {
+      fetch: login,
+      status: apiLogin.status,
+    },
   };
 }

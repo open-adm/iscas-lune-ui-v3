@@ -12,6 +12,7 @@ interface propsCardPesoTamanho {
   id: string;
   precoProduto?: IPrecoProduto;
   onChange: (qtd?: number) => void;
+  onBlur?: () => void;
 }
 
 export function CardPesoTamanho(props: propsCardPesoTamanho) {
@@ -30,6 +31,7 @@ export function CardPesoTamanho(props: propsCardPesoTamanho) {
         id={`${props.id}`}
         value={props.precoProduto?.quantidade}
         onChange={(_, value) => props.onChange(value)}
+        onBlur={props.onBlur}
         maxLength={10}
       />
       {props.precoProduto && (

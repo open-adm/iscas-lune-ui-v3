@@ -3,7 +3,12 @@ export const rotas = {
   produto: "/produto",
   lojaParceira: "/loja-parceira",
   categoria: "/categoria",
+  carrinho: "/carrinho",
   login: "/login",
+  minhaConta: "/minha-conta",
+  editarMinhaConta: "/minha-conta/editar",
+  trocarSenha: "/trocar-senha",
+  pedido: "/pedido",
   esqueceuSenha: "/esqueceu-senha",
   criarUsuario: "/usuario/criar",
 };

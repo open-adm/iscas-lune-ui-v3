@@ -72,7 +72,7 @@ export function MenuApp(props: propsMenuApp) {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => navegarMenu(rotas.minhaConta)}>
                 <ListItemIcon>
                   <IconApp icon={listaDeIcones.avatar} />
                 </ListItemIcon>

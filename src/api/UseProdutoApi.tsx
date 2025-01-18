@@ -35,7 +35,13 @@ export function useProdutoApi() {
   }
 
   return {
-    listarPorCategorias,
-    paginacaoProduto,
+    listarPorCategorias: {
+      fetch: listarPorCategorias,
+      status: apiListarPorCategoria.status,
+    },
+    paginacaoProduto: {
+      fetch: paginacaoProduto,
+      status: apiListarPaginacao.status,
+    },
   };
 }

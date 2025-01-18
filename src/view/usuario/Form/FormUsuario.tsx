@@ -18,7 +18,6 @@ import { useClienteApi } from "@/api/UseClienteApi";
 import { AppAuthContext } from "@/context/AppAuthContext";
 
 export function FormUsuario() {
-  const [loading, setLoading] = useState(false);
   const [tipoPessoa, setTipoPessoa] = useState(1);
   const { shadow, borderRadius } = useThemeApp();
   const { criarUsuario } = useClienteApi();
@@ -35,18 +34,15 @@ export function FormUsuario() {
     const body = {
       ...form.values,
       telefone: clearMaskPhone(form.values.telefone),
-      cpf: isJuridico ? undefined : clearMaskCpfCnpj(form.values.cpf),
-      cnpj: isJuridico ? clearMaskCpfCnpj(form.values.cpf) : undefined,
+      cpf: clearMaskCpfCnpj(form.values.cpf),
+      cnpj: clearMaskCpfCnpj(form.values.cpf),
     };
-    setLoading(true);
-    const response = await criarUsuario(body as any);
+    const response = await criarUsuario.fetch(body as any);
     if (response) {
       logar(response);
       navigate(rotas.home);
       return;
     }
-
-    setLoading(false);
   }
 
   return (
@@ -85,7 +81,7 @@ export function FormUsuario() {
             id="tipoPessoa"
             opcoes={tiposPessoa}
           />
-          {isJuridico && <Button variant="contained" title="Consulta CNPJ" />}
+          {isJuridico && <Button variant="contained" title="validar CNPJ" />}
         </BoxApp>
         <GridApp container spacing={3}>
           <GridApp xs={12} sm={6}>
@@ -184,7 +180,7 @@ export function FormUsuario() {
           gap="1rem"
         >
           <Button
-            loading={loading}
+            loading={criarUsuario.status === "loading"}
             type="submit"
             width="100%"
             maxWidth="170px"

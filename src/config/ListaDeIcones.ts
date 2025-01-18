@@ -15,4 +15,5 @@ export const listaDeIcones = {
   senha: "mdi:password-outline",
   sair: "material-symbols-light:logout-rounded",
   pedido: "lsicon:order-outline",
+  lixeira: "material-symbols-light:delete-outline",
 };

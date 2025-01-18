@@ -6,6 +6,7 @@ import { AppThemeProvider } from "@/context/AppThemeContext";
 import { Footer } from "@/components/Footer/Footer";
 import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
 import { AppAuthProvider } from "@/context/AppAuthContext";
+import { AppCarrinhoProvider } from "@/context/AppCarrinhoContext";
 
 export default function RootLayout({
   children,
@@ -25,14 +26,16 @@ export default function RootLayout({
       </head>
       <AppThemeProvider>
         <AppAuthProvider>
-          <body className="body-principal">
-            <Snack.Componet />
-            <div className="container-div">
-              <Header />
-              <main className="container-main">{children}</main>
-              <Footer />
-            </div>
-          </body>
+          <AppCarrinhoProvider>
+            <body className="body-principal">
+              <Snack.Componet />
+              <div className="container-div">
+                <Header />
+                <main className="container-main">{children}</main>
+                <Footer />
+              </div>
+            </body>
+          </AppCarrinhoProvider>
         </AppAuthProvider>
       </AppThemeProvider>
     </html>
