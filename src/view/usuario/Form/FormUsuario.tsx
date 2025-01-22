@@ -178,12 +178,12 @@ export function FormUsuario() {
           flexDirection="column"
           width="100%"
           gap="1rem"
+          maxWidth="170px"
         >
           <Button
             loading={criarUsuario.status === "loading"}
             type="submit"
             width="100%"
-            maxWidth="170px"
             variant="contained"
             onClick={form.onSubmit}
           />
