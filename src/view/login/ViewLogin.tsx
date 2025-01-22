@@ -67,6 +67,7 @@ export function ViewLogin() {
         >
           <InputApp
             fullWidth
+            autoFocus
             id="cpfCnpj"
             label="CPF/CNPJ"
             mask={MaskType.CPFCNPJ}

@@ -11,11 +11,17 @@ import { initialValues, schemaEdit } from "../Form/Configuracao";
 import { GridApp } from "@/components/Grid/GridApp";
 import { InputApp, MaskType } from "@/components/Input/InputApp";
 import { rotas } from "@/config/ConfigRotas";
+import {
+  clearMaskCnpj,
+  clearMaskCpf,
+  clearMaskPhone,
+} from "@/utils/MaskCpfCnpj";
+import { IUsuario } from "@/types/Usuario";
 
 export function EditarViewMinhaConta() {
   const { obterUsuarioLogado, editarUsuario } = useClienteApi();
   const { navigate } = useNavigateApp();
-  const form = useFormikAdapter({
+  const form = useFormikAdapter<IUsuario>({
     initialValues: initialValues,
     validationSchema: schemaEdit,
     onSubmit: submit,
@@ -30,7 +36,12 @@ export function EditarViewMinhaConta() {
   }
 
   async function submit() {
-    const response = await editarUsuario.fetch(form.values);
+    const response = await editarUsuario.fetch({
+      ...form.values,
+      cpf: clearMaskCpf(form.values.cpf),
+      cnpj: clearMaskCnpj(form.values.cnpj),
+      telefone: clearMaskPhone(form.values.telefone),
+    });
     if (response) {
       navigate(rotas.home);
     }

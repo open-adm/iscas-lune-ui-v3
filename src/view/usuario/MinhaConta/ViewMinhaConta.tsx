@@ -6,6 +6,7 @@ import { Button } from "@/components/Button/ButtonApp";
 import { DividerApp } from "@/components/Divider/DividerApp";
 import { LoadingApp } from "@/components/Loading/LoadingApp";
 import { TextApp } from "@/components/Text/TextApp";
+import { TextoDuplo } from "@/components/Text/TextoDuplo";
 import { rotas } from "@/config/ConfigRotas";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { IUsuario } from "@/types/Usuario";
@@ -89,20 +90,6 @@ export function ViewMinhaConta() {
           variant="contained"
         />
       </BoxApp>
-    </BoxApp>
-  );
-}
-
-interface propsTextoDuplo {
-  titulo: string;
-  texto: string;
-}
-
-function TextoDuplo(props: propsTextoDuplo) {
-  return (
-    <BoxApp display="flex" gap="1rem" alignItems="center">
-      <TextApp fontWeight={600} titulo={props.titulo} />
-      <TextApp titulo={props.texto} />
     </BoxApp>
   );
 }
