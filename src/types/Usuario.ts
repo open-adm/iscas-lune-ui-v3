@@ -17,4 +17,5 @@ export interface IUsuarioCreate {
   cpf: string;
   senha: string;
   reSenha: string;
+  validouCnpj: boolean
 }
