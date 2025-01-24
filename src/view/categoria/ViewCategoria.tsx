@@ -5,17 +5,18 @@ import { BoxApp } from "@/components/Box/BoxApp";
 import { GridApp } from "@/components/Grid/GridApp";
 import { LoadingApp } from "@/components/Loading/LoadingApp";
 import { TextApp } from "@/components/Text/TextApp";
-import { IdPage } from "@/types/PageId";
 import { IProduto } from "@/types/Produto";
 import { useEffect, useState } from "react";
 import { CardProduto } from "@/components/CardProduto/CardProduto";
+import { useNavigateApp } from "@/hooks/UseNavigateApp";
 
-export function ViewCategoria(props: IdPage) {
+export function ViewCategoria() {
   const { listarPorCategorias } = useProdutoApi();
   const [produtos, setProdutos] = useState<IProduto[]>([]);
+  const { params } = useNavigateApp();
 
   async function init() {
-    const response = await listarPorCategorias.fetch(props.id);
+    const response = await listarPorCategorias.fetch(params.id as string);
     if (response) {
       setProdutos(response);
     }

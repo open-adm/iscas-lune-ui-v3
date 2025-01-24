@@ -16,13 +16,13 @@ import { formatDate } from "@/utils/FormatDate";
 import { formatMoney } from "@/utils/FormatMoney";
 import { useEffect, useState } from "react";
 
-export function ViewItensPedido(props: IdPage) {
+export function ViewItensPedido() {
   const { obterPorId } = UsePedidoApi();
-  const { navigate } = useNavigateApp();
+  const { navigate, params } = useNavigateApp();
   const [pedido, setPedido] = useState<IPedido>();
 
   async function init() {
-    const response = await obterPorId.fetch(props.id);
+    const response = await obterPorId.fetch(params.id as string);
     setPedido(response);
   }
 

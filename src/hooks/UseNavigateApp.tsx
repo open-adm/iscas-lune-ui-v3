@@ -1,7 +1,8 @@
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 export function useNavigateApp() {
   const router = useRouter();
+  const params = useParams();
 
   function navigate(url?: string) {
     if (url) {
@@ -11,5 +12,6 @@ export function useNavigateApp() {
 
   return {
     navigate,
+    params,
   };
 }
