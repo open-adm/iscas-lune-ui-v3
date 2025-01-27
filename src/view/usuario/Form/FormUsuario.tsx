@@ -97,8 +97,6 @@ export function FormUsuario() {
   return (
     <form onSubmit={form.onSubmit}>
       <BoxApp
-        boxShadow={shadow}
-        borderRadius={borderRadius}
         padding="1rem"
         display="flex"
         alignItems="center"
@@ -106,8 +104,9 @@ export function FormUsuario() {
         flexDirection="column"
         gap="1rem"
         marginTop="1rem"
-        height="calc(100vh - 100px)"
+        height="calc(100vh - 30px)"
         width="calc(100vw - 2rem)"
+        overflowy="auto"
       >
         <TextApp
           titulo="Cadastre-se agora 🚀"

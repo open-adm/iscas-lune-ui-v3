@@ -9,6 +9,7 @@ import { ICategoria } from "@/types/Categoria";
 import styles from "./CategoriaView.module.css";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { rotas } from "@/config/ConfigRotas";
+import { Button } from "@/components/Button/ButtonApp";
 
 interface propsCategoriaView {
   categorias: ICategoria[];
@@ -33,19 +34,11 @@ export function CategoriaView(props: propsCategoriaView) {
             marginTop="1rem"
           >
             <TextApp fontSize="18px" titulo={categoria.descricao} />
-            <BoxApp
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              gap=".2rem"
-              cursor="pointer"
-            >
-              <TextApp
-                titulo="Visualizar"
-                onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
-              />
-              <IconApp icon={listaDeIcones.flechaDireita} />
-            </BoxApp>
+            <Button
+              title="visualizar"
+              endIcon={listaDeIcones.flechaDireita}
+              onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
+            />
           </BoxApp>
           <GridApp container spacing={3}>
             {categoria.produtos?.map((produto) => (

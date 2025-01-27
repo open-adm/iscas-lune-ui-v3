@@ -14,6 +14,7 @@ import { styled } from "@mui/material/styles";
 import { IconApp } from "../Icon/IconApp";
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
+import { Button } from "../Button/ButtonApp";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -41,13 +42,9 @@ export function Header() {
         className={styles.headerMain}
         style={{ backgroundColor: backgroundColor.card }}
       >
+        <Button title="Menu" onClick={toogleOpen} />
         <TextApp
-          titulo="Menu"
-          cursor="pointer"
-          hover={{ color: "#000000" }}
-          onClick={toogleOpen}
-        />
-        <TextApp
+          
           titulo="ISCAS LUNE"
           cursor="pointer"
           fontSize="18px"

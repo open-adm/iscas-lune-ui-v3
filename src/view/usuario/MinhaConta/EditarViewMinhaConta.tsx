@@ -59,19 +59,37 @@ export function EditarViewMinhaConta() {
     <form onSubmit={form.onSubmit} style={{ padding: "1rem" }}>
       <GridApp container spacing={3}>
         <GridApp xs={12} sm={6}>
-          <InputApp
-            fullWidth
-            id="cpf"
-            label={isJuridico ? "CNPJ" : "CPF"}
-            maxLength={255}
-            mask={isJuridico ? MaskType.CNPJ : MaskType.CPF}
-            onChange={form.onChange}
-            onBlur={form.onBlur}
-            value={form.values.cpf}
-            error={form.error("cpf")}
-            helperText={form.helperText("cpf")}
-            required
-          />
+          {form.values.cnpj ? (
+            <InputApp
+              fullWidth
+              id="cnpj"
+              label={"CNPJ"}
+              maxLength={255}
+              mask={MaskType.CNPJ}
+              onChange={form.onChange}
+              onBlur={form.onBlur}
+              value={form.values.cnpj}
+              error={form.error("cnpj")}
+              helperText={form.helperText("cnpj")}
+              required
+              readonly
+            />
+          ) : (
+            <InputApp
+              fullWidth
+              id="cpf"
+              label={"CPF"}
+              maxLength={255}
+              mask={MaskType.CPF}
+              onChange={form.onChange}
+              onBlur={form.onBlur}
+              value={form.values.cpf}
+              error={form.error("cpf")}
+              helperText={form.helperText("cpf")}
+              required
+              readonly
+            />
+          )}
         </GridApp>
         <GridApp xs={12} sm={6}>
           <InputApp

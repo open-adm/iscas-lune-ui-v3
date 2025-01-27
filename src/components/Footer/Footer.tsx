@@ -7,6 +7,7 @@ import { TextApp } from "../Text/TextApp";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useListarCategoriasApi } from "@/api/UseListarCategoriasApi";
 import { rotas } from "@/config/ConfigRotas";
+import { Button } from "../Button/ButtonApp";
 
 export function Footer() {
   const { categorias } = useListarCategoriasApi();
@@ -21,18 +22,19 @@ export function Footer() {
         padding="1rem"
       >
         <BoxApp>
-          <TextApp titulo="Iscas lune" />
+          <TextApp titulo="Iscas lune" fontWeight={600} fontSize="18px" />
         </BoxApp>
         <BoxApp>
-          <TextApp titulo="Categorias" fontWeight={600} />
-          {categorias.map((categoria) => (
-            <TextApp
-              onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
-              cursor="pointer"
-              key={categoria.id}
-              titulo={categoria.descricao}
-            />
-          ))}
+          <TextApp titulo="Categorias" fontWeight={600} fontSize="18px" />
+          <BoxApp display="flex" flexDirection="column">
+            {categorias.map((categoria) => (
+              <Button
+                onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
+                key={categoria.id}
+                title={categoria.descricao}
+              />
+            ))}
+          </BoxApp>
         </BoxApp>
       </BoxApp>
       <BoxApp
