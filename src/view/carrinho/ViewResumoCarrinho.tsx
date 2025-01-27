@@ -89,7 +89,7 @@ export function ViewResumoCarrinho() {
     const response = await criarPedido.fecth(body);
     if (response) {
       resetarCarrinho();
-      navigate(rotas.home);
+      navigate(rotas.pedidoFinalizado);
     }
   }
 

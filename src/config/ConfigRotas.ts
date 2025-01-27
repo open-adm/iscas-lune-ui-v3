@@ -11,4 +11,5 @@ export const rotas = {
   pedido: "/pedido",
   esqueceuSenha: "/esqueceu-senha",
   criarUsuario: "/usuario/criar",
+  pedidoFinalizado: "/pedido/finalizado",
 };
