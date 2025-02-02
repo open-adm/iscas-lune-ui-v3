@@ -25,7 +25,7 @@ export function ViewPedidoFinalizado() {
       <TextApp titulo="Qualquer dúvida, estamos à disposição!" />
       <Button
         variant="contained"
-        onClick={() => navigate("/home")}
+        onClick={() => navigate("/")}
         title="Voltar para tela inicial"
       />
     </BoxApp>
