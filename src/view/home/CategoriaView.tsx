@@ -56,13 +56,19 @@ export function CategoriaView(props: propsCategoriaView) {
                     hover={{
                       boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
                     }}
+                    height="auto"
+                    overflowx="hidden"
+                    overflowy="hidden"
+                    position="relative"
                   >
                     <ImageApp
                       className={styles.cardproduto}
                       src={produto.foto}
                       alt={produto.descricao}
-                      height={150}
-                      width={200}
+                      height={"auto"}
+                      width={"100%"}
+                      borderRadius="5px"
+                      objectFit="cover"
                     />
                   </BoxApp>
                   <BoxApp

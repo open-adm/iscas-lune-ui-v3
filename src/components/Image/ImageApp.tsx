@@ -1,22 +1,29 @@
-import Image from "next/image";
-
 interface propsImageApp {
   src: string;
   alt: string;
   className?: string;
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
+  maxWidth?: string;
+  maxHeigth?: string;
+  borderRadius?: string;
+  objectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 }
 
 export function ImageApp(props: propsImageApp) {
   return (
-    <Image
-      height={props.height}
-      width={props.width}
-      src={props.src}
-      className={props.className}
+    <img
       alt={props.alt}
-      priority
+      src={props.src}
+      width={props.width}
+      height={props.height}
+      style={{
+        maxWidth: props.maxWidth,
+        maxHeight: props.maxHeigth,
+        borderRadius: props.borderRadius,
+        objectFit: props.objectFit
+      }}
+      loading="lazy"
     />
   );
 }

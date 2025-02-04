@@ -17,16 +17,22 @@ export function CardFoto(props: propsFotoCard) {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      backgroundColor={props.backgroundColor}
-      width={props.width}
+      width={'100%'}
+      maxWidth="320px"
+      height="auto"
+      overflowx="hidden"
+      overflowy="hidden"
+      position="relative"
       borderRadius={props.borderRadius}
     >
       <ImageApp
         className={styled.cardproduto}
         src={props.foto}
         alt={props.descricao}
-        height={150}
-        width={200}
+        height={'auto'}
+        width={'100%'}
+        borderRadius="5px"
+        objectFit="cover"
       />
     </BoxApp>
   );
