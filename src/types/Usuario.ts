@@ -1,4 +1,4 @@
-import { IBase } from "./Base";
+import { IBase, IEnderecoBase } from "./Base";
 
 export interface IUsuario extends IBase {
   nome: string;
@@ -8,6 +8,7 @@ export interface IUsuario extends IBase {
   cpf?: string;
   pedidosEmAberto?: number;
   quantidadeDePedido?: number;
+  enderecoUsuario?: IEnderecoBase;
 }
 
 export interface IUsuarioCreate {
@@ -17,5 +18,5 @@ export interface IUsuarioCreate {
   cpf: string;
   senha: string;
   reSenha: string;
-  validouCnpj: boolean
+  validouCnpj: boolean;
 }

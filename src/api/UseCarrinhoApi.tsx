@@ -1,5 +1,6 @@
 import { useApi } from "@/hooks/UseApi";
 import { IAdicionarProdutoCarrinho } from "@/types/AdicionarProdutoCarrinho";
+import { ICarrinho } from "@/types/Carrinho";
 import { IProduto } from "@/types/Produto";
 
 export function useCarrinhoApi() {
@@ -28,7 +29,7 @@ export function useCarrinhoApi() {
     return await apiQuantidadeItens.action();
   }
 
-  async function obterItensCarrinho(): Promise<IProduto[] | undefined> {
+  async function obterItensCarrinho(): Promise<ICarrinho | undefined> {
     return await apiObterItens.action();
   }
 

@@ -10,11 +10,18 @@ interface propsModalApp {
   open: boolean;
   close: () => void;
   children: ReactNode;
+  fullWidth?: boolean;
+  maxWidth?: "lg" | "md" | "sm" | "xl" | "xs";
 }
 
 export default function ModalApp(props: propsModalApp) {
   return (
-    <Dialog open={props.open} onClose={props.close}>
+    <Dialog
+      maxWidth={props.maxWidth}
+      fullWidth={props.fullWidth}
+      open={props.open}
+      onClose={props.close}
+    >
       <DialogTitle>Iscas lune</DialogTitle>
       <IconButton
         aria-label="close"

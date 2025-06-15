@@ -8,6 +8,7 @@ import { IAdicionarProdutoCarrinho } from "@/types/AdicionarProdutoCarrinho";
 import { StatusRequisicao } from "@/types/StatusRequisicao";
 import { IProduto } from "@/types/Produto";
 import { removerItemDeArrayPorIndex } from "@/utils/RemoverItemDeArrayPorIndex";
+import { IEnderecoBase } from "@/types/Base";
 
 interface IAppCarrinhoContext {
   quantidadeItensCarrinho: number;
@@ -20,6 +21,8 @@ interface IAppCarrinhoContext {
   obterProdutos: () => Promise<void>;
   excluirProdutoCarrinho: (index: number) => Promise<void>;
   resetarCarrinho: () => void;
+  enderecoUsuario?: IEnderecoBase;
+  setEnderecoUsuario: (endereco: IEnderecoBase) => void;
 }
 
 interface IAppCarrinhoProvider {
@@ -30,6 +33,7 @@ export const AppCarrinhoContext = createContext({} as IAppCarrinhoContext);
 
 export function AppCarrinhoProvider(props: IAppCarrinhoProvider) {
   const [produtos, setProdutos] = useState<IProduto[]>([]);
+  const [enderecoUsuario, setEnderecoUsuario] = useState<IEnderecoBase>();
   const [quantidadeItensCarrinho, setQuantidadeItensCarrinho] = useState(0);
   const {
     obterQuantidadeItensCarrinho,
@@ -52,7 +56,10 @@ export function AppCarrinhoProvider(props: IAppCarrinhoProvider) {
 
   async function obterProdutos() {
     const response = await obterItensCarrinho.fetch();
-    setProdutos(response ?? []);
+    if (response) {
+      setProdutos(response.itens);
+      setEnderecoUsuario(response.enderecoUsuario);
+    }
   }
 
   async function adicionarItens(itens: IAdicionarProdutoCarrinho[]) {
@@ -90,7 +97,9 @@ export function AppCarrinhoProvider(props: IAppCarrinhoProvider) {
         setProdutos,
         excluirProdutoCarrinho,
         statusExcluirItem: excluirProduto.status,
-        resetarCarrinho
+        resetarCarrinho,
+        enderecoUsuario,
+        setEnderecoUsuario,
       }}
     >
       {props.children}
