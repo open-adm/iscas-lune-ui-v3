@@ -24,12 +24,14 @@ export interface propsButton {
   component?: string;
   tabIndex?: number;
   endIcon?: string;
+  coricon?: string;
 }
 
 export function Button(props: propsButton) {
   return (
     <LoadingButton
       {...props}
+      size="small"
       onClick={(e) => {
         e.preventDefault();
         if (props.onClick) {
@@ -63,7 +65,11 @@ export function Button(props: propsButton) {
           backgroundColor: props.backGroundColorHover,
         },
       }}
-      endIcon={props.endIcon ? <IconApp icon={props.endIcon} /> : undefined}
+      endIcon={
+        props.endIcon ? (
+          <IconApp color={props.coricon} icon={props.endIcon} />
+        ) : undefined
+      }
     >
       {props.title ?? "Continuar"}
     </LoadingButton>

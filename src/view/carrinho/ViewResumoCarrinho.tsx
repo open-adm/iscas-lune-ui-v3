@@ -3,7 +3,6 @@ import { Button } from "@/components/Button/ButtonApp";
 import { TextApp } from "@/components/Text/TextApp";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
 import { formatMoney } from "@/utils/FormatMoney";
-import { Alert } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ViewTotalizadorCarrinho } from "./ViewTotalizadoCarrinho";
 import { IPedidoMinimo } from "@/types/PedidoMinimo";
@@ -11,12 +10,17 @@ import { UsePedidoApi } from "@/api/UsePedidoApi";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { rotas } from "@/config/ConfigRotas";
 import { DividerApp } from "@/components/Divider/DividerApp";
+import { AlertApp } from "@/components/Alert/AlertApp";
+import { ViewEnderecoCarrinho } from "./ViewEnderecoCarrinho";
+import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
 
 export function ViewResumoCarrinho() {
   const [pedidoMinimo, setPedidoMinimo] = useState<IPedidoMinimo>();
   const { obterPedidoMinimo, criarPedido } = UsePedidoApi();
-  const { produtos, resetarCarrinho } = useContext(AppCarrinhoContext);
+  const { produtos, resetarCarrinho, enderecoUsuario } =
+    useContext(AppCarrinhoContext);
   const { navigate } = useNavigateApp();
+  const { show } = useSnackbar();
   const pesosComQuantidade = produtos.flatMap((x) =>
     x.pesos.filter((y) => y.precoProduto?.quantidade)
   );
@@ -55,6 +59,12 @@ export function ViewResumoCarrinho() {
     ) {
       return;
     }
+
+    if (!enderecoUsuario) {
+      show("Informe o endereço de entrega");
+      return;
+    }
+
     const body = [
       ...produtos.flatMap((produto) => {
         return produto.tamanhos
@@ -86,7 +96,10 @@ export function ViewResumoCarrinho() {
       return;
     }
 
-    const response = await criarPedido.fecth(body);
+    const response = await criarPedido.fecth({
+      itens: body,
+      enderecoEntrega: enderecoUsuario,
+    });
     if (response) {
       resetarCarrinho();
       navigate(rotas.pedidoFinalizado);
@@ -156,14 +169,17 @@ export function ViewResumoCarrinho() {
       </BoxApp>
       <DividerApp width="100%" />
       {pedidoMinimo?.pedidoMinimo && !naoFechouPedidoMinimo ? (
-        <Alert severity="error" sx={{ marginTop: "1rem" }}>
-          {`Atenção, pedido mínimo no valor de: ${formatMoney(
+        <AlertApp
+          tipo="error"
+          texto={`Atenção, pedido mínimo no valor de: ${formatMoney(
             pedidoMinimo.pedidoMinimo
           )}`}
-        </Alert>
+          sx={{ marginTop: "1rem" }}
+        />
       ) : (
         <></>
       )}
+      <ViewEnderecoCarrinho />
       <BoxApp marginTop="1rem">
         <Button
           disabled={!naoFechouPedidoMinimo}

@@ -38,7 +38,7 @@ export function UsePedidoApi() {
     return await apiPedidoMinimo.action();
   }
 
-  async function criarPedido(body: ICreatePedido[]): Promise<any> {
+  async function criarPedido(body: ICreatePedido): Promise<any> {
     return await apiPedidoCreate.action({
       body,
       message: "Pedido criado com sucesso!",

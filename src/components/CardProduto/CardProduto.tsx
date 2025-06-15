@@ -228,6 +228,7 @@ export function CardProduto(props: propsCardProduto) {
                 title={"Excluir"}
                 variant="text"
                 width="100%"
+                coricon="red"
                 loading={statusExcluirItem === "loading"}
               />
             )}

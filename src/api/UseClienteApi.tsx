@@ -1,4 +1,5 @@
 import { useApi } from "@/hooks/UseApi";
+import { IEnderecoBase } from "@/types/Base";
 import { IResponseLogin } from "@/types/ResponseLogin";
 import { ITrocarSenha } from "@/types/TrocarSenha";
 import { IUsuario, IUsuarioCreate } from "@/types/Usuario";
@@ -7,6 +8,11 @@ export function useClienteApi() {
   const apiCreate = useApi({
     method: "POST",
     url: "usuarios/create",
+  });
+
+  const apiEndereco = useApi({
+    method: "POST",
+    url: "usuario/endereco/criar-ou-atualizar",
   });
 
   const apiTrocarSenha = useApi({
@@ -49,6 +55,15 @@ export function useClienteApi() {
     });
   }
 
+  async function criarOuAtualizarEndereco(
+    body: IEnderecoBase
+  ): Promise<IEnderecoBase | undefined> {
+    return await apiEndereco.action({
+      body,
+      message: "Endereço atualizado com sucesso",
+    });
+  }
+
   return {
     criarUsuario: {
       fetch: criarUsuario,
@@ -65,6 +80,10 @@ export function useClienteApi() {
     trocarSenha: {
       fetch: trocarSenha,
       status: apiTrocarSenha.status,
+    },
+    criarOuAtualizarEndereco: {
+      fetch: criarOuAtualizarEndereco,
+      status: apiEndereco.status,
     },
   };
 }

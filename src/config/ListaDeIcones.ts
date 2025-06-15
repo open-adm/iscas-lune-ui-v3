@@ -16,4 +16,7 @@ export const listaDeIcones = {
   sair: "material-symbols-light:logout-rounded",
   pedido: "lsicon:order-outline",
   lixeira: "material-symbols-light:delete-outline",
+  searchGlobal: "streamline-ultimate:network-search",
+  loading: "eos-icons:bubble-loading",
+  download: "material-symbols-light:download",
 };
