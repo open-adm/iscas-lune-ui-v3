@@ -25,12 +25,12 @@ export interface propsButton {
   tabIndex?: number;
   endIcon?: string;
   coricon?: string;
+  fontSize?: string;
 }
 
 export function Button(props: propsButton) {
   return (
     <LoadingButton
-      {...props}
       size="small"
       onClick={(e) => {
         e.preventDefault();
@@ -64,6 +64,7 @@ export function Button(props: propsButton) {
         "&:hover": {
           backgroundColor: props.backGroundColorHover,
         },
+        fontSize: props.fontSize,
       }}
       endIcon={
         props.endIcon ? (

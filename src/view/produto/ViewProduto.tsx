@@ -74,17 +74,14 @@ export function ViewProduto() {
     init();
   }, [pagina]);
 
-  if (paginacaoProduto.status === "loading") {
-    return <LoadingApp height="300px" marginTop="1rem" />;
-  }
-
-  if (paginacao.values.length === 0) {
+  if (paginacao.values.length === 0 && paginacaoProduto.status !== "loading") {
     return <></>;
   }
 
   return (
     <>
       <BoxApp padding="1rem">
+        {paginacaoProduto.status === "loading" && <LoadingApp />}
         <BoxApp
           display="flex"
           alignItems="center"

@@ -1,5 +1,6 @@
 import { useApi } from "@/hooks/UseApi";
 import { IEnderecoBase } from "@/types/Base";
+import { IRecuperarSenha } from "@/types/RecuperarSenha";
 import { IResponseLogin } from "@/types/ResponseLogin";
 import { ITrocarSenha } from "@/types/TrocarSenha";
 import { IUsuario, IUsuarioCreate } from "@/types/Usuario";
@@ -18,6 +19,11 @@ export function useClienteApi() {
   const apiTrocarSenha = useApi({
     method: "PUT",
     url: "usuarios/update-senha",
+  });
+
+  const apiRecuperarSenha = useApi({
+    method: "PUT",
+    url: "usuarios/recuperar-senha",
   });
 
   const apiEdit = useApi({
@@ -55,6 +61,15 @@ export function useClienteApi() {
     });
   }
 
+  async function recuperarSenha(
+    body: IRecuperarSenha
+  ): Promise<IResponseLogin | undefined> {
+    return await apiRecuperarSenha.action({
+      body,
+      message: "Senha recuperada com sucesso!",
+    });
+  }
+
   async function criarOuAtualizarEndereco(
     body: IEnderecoBase
   ): Promise<IEnderecoBase | undefined> {
@@ -84,6 +99,10 @@ export function useClienteApi() {
     criarOuAtualizarEndereco: {
       fetch: criarOuAtualizarEndereco,
       status: apiEndereco.status,
+    },
+    recuperarSenha: {
+      fetch: recuperarSenha,
+      status: apiRecuperarSenha.status,
     },
   };
 }

@@ -7,7 +7,6 @@ import { TextApp } from "@/components/Text/TextApp";
 import { rotas } from "@/config/ConfigRotas";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useThemeApp } from "@/hooks/UseThemeApp";
-import { useState } from "react";
 import { useEsqueceuSenhaApi } from "@/api/UseEsqueceuSenhaApi";
 import { YupAdapter } from "@/adapters/YupAdapter";
 import { Button } from "@/components/Button/ButtonApp";
