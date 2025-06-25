@@ -43,15 +43,9 @@ export function Header() {
         style={{ backgroundColor: backgroundColor.card }}
       >
         <Button title="Menu" onClick={toogleOpen} />
-        <TextApp
-          
-          titulo="ISCAS LUNE"
-          cursor="pointer"
-          fontSize="18px"
-          fontWeight={500}
-          hover={{
-            color: "#000000",
-          }}
+        <Button
+          title="ISCAS LUNE"
+          fontSize="1.2rem"
           onClick={() => navigate(rotas.home)}
         />
         <BoxApp display="flex" alignItems="center">

@@ -35,11 +35,10 @@ export function ViewCarrinho() {
     obterProdutos();
   }, []);
 
-  if (statusObterItens === "loading") {
-    return <LoadingApp height="350px" />;
-  }
-
-  if (!quantidadeItensCarrinho || produtos.length === 0) {
+  if (
+    (!quantidadeItensCarrinho || produtos.length === 0) &&
+    statusObterItens !== "loading"
+  ) {
     return (
       <BoxApp marginTop="1rem" padding="1rem" height="calc(100vh - 300px)">
         <TextApp
@@ -64,36 +63,42 @@ export function ViewCarrinho() {
 
   return (
     <BoxApp width="100vw" padding="1rem">
-      <AlertApp
-        tipo="warning"
-        texto="Atenção, nosso tempo mínimo de entrega do pedido é de 30 dias."
-      />
-      <GridApp container spacing={2}>
-        <GridApp sm={8} xs={12}>
-          <BoxApp
-            height="calc(100vh - 60px)"
-            overflowy="auto"
-            padding="1rem"
-            display="flex"
-            flexDirection="column"
-            gap="1rem"
-          >
-            {produtos.map((produto, index) => (
-              <CardProduto
-                desabilitarBtnAddCarrinho
-                key={produto.id}
-                produto={produto}
-                habilitarExclusaoProduto
-                onBlur={(prod) => editarProduto(index, prod)}
-                index={index}
-              />
-            ))}
-          </BoxApp>
-        </GridApp>
-        <GridApp sm={4} xs={12}>
-          <ViewResumoCarrinho />
-        </GridApp>
-      </GridApp>
+      {statusObterItens === "loading" ? (
+        <LoadingApp height="350px" />
+      ) : (
+        <>
+          <AlertApp
+            tipo="warning"
+            texto="Atenção, nosso tempo mínimo de entrega do pedido é de 30 dias."
+          />
+          <GridApp container spacing={2}>
+            <GridApp sm={8} xs={12}>
+              <BoxApp
+                height="calc(100vh - 60px)"
+                overflowy="auto"
+                padding="1rem"
+                display="flex"
+                flexDirection="column"
+                gap="1rem"
+              >
+                {produtos.map((produto, index) => (
+                  <CardProduto
+                    desabilitarBtnAddCarrinho
+                    key={produto.id}
+                    produto={produto}
+                    habilitarExclusaoProduto
+                    onBlur={(prod) => editarProduto(index, prod)}
+                    index={index}
+                  />
+                ))}
+              </BoxApp>
+            </GridApp>
+            <GridApp sm={4} xs={12}>
+              <ViewResumoCarrinho />
+            </GridApp>
+          </GridApp>
+        </>
+      )}
     </BoxApp>
   );
 }

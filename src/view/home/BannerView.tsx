@@ -10,38 +10,39 @@ interface propsBannerView {
 }
 
 export function BannerView(props: propsBannerView) {
-  if (props.status === "loading") {
-    return <LoadingApp height="150px" width="100%" texto="Carregando banners..." />;
-  }
-
-  if (props.banners.length === 0) {
+  if (props.banners.length === 0 && props.status !== "loading") {
     return <></>;
   }
 
   return (
-    <div className={styles.carrossel}>
-      <div className={styles.track}>
-        {props.banners.map((banner) => (
-          <ImageApp
-            width={300}
-            height={200}
-            key={banner.id}
-            src={banner.foto}
-            alt={banner.id}
-            className={styles.image}
-          />
-        ))}
-        {props.banners.map((banner) => (
-          <ImageApp
-            width={300}
-            height={200}
-            key={banner.id}
-            src={banner.foto}
-            alt={banner.id}
-            className={styles.image}
-          />
-        ))}
+    <>
+      {props.status === "loading" && (
+        <LoadingApp height="150px" width="100%" texto="Carregando banners..." />
+      )}
+      <div className={styles.carrossel}>
+        <div className={styles.track}>
+          {props.banners.map((banner) => (
+            <ImageApp
+              width={300}
+              height={200}
+              key={banner.id}
+              src={banner.foto}
+              alt={banner.id}
+              className={styles.image}
+            />
+          ))}
+          {props.banners.map((banner) => (
+            <ImageApp
+              width={300}
+              height={200}
+              key={banner.id}
+              src={banner.foto}
+              alt={banner.id}
+              className={styles.image}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
