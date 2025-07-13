@@ -9,6 +9,7 @@ interface propsLoadingApp {
   width?: string;
   texto?: string;
   flexDirection?: flexDirection;
+  size?: number;
 }
 
 export function LoadingApp(props: propsLoadingApp) {
@@ -23,7 +24,7 @@ export function LoadingApp(props: propsLoadingApp) {
       gap="1rem"
       marginTop={props.marginTop}
     >
-      <HashLoader />
+      <HashLoader size={props.size} />
       <TextApp titulo={props.texto ?? "Carregando..."} />
     </BoxApp>
   );

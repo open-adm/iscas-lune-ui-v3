@@ -10,9 +10,10 @@ import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { initialValues, schemaValidacao } from "./Configuracao";
 import { useLoginApi } from "@/api/UseLoginApi";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { clearMaskCpfCnpj } from "@/utils/MaskCpfCnpj";
 import { AppAuthContext } from "@/context/AppAuthContext";
+import GoogleLogin from "@/components/Externos/GoogleHeadMeta";
 
 export function ViewLogin() {
   const { shadow, borderRadius, amarelo } = useThemeApp();
@@ -117,6 +118,7 @@ export function ViewLogin() {
             variant="contained"
             onClick={form.onSubmit}
           />
+          <GoogleLogin />
           <Button
             onClick={() => navigate(rotas.home)}
             fullWidth
