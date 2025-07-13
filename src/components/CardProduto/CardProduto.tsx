@@ -226,7 +226,7 @@ export function CardProduto(props: propsCardProduto) {
                 onClick={excluir}
                 endIcon={listaDeIcones.lixeira}
                 title={"Excluir"}
-                variant="text"
+                variant="outlined"
                 width="100%"
                 coricon="red"
                 loading={statusExcluirItem === "loading"}

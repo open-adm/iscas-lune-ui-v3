@@ -16,6 +16,7 @@ jobs:
           cat > .env.production
           echo "NEXT_PUBLIC_URL_API=${{ secrets.URL_API }}" >> .env.production
           echo "NEXT_PUBLIC_PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env.production
           echo "$(<.env.production)"
       - name: Build
         run: docker build . -t brunobentocaina/iscas-lune-ui:${GITHUB_REF#refs/*/}
