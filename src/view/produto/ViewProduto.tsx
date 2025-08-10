@@ -42,6 +42,9 @@ export function ViewProduto() {
   });
 
   async function init() {
+    if (window) {
+      window.scrollTo(0, 0);
+    }
     const response = await paginacaoProduto.fetch({
       page: pagina,
       categoriaId: categoria,
@@ -81,42 +84,47 @@ export function ViewProduto() {
   return (
     <>
       <BoxApp padding="1rem">
-        {paginacaoProduto.status === "loading" && <LoadingApp />}
-        <BoxApp
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          padding="1rem"
-          gap="1rem"
-        >
-          <TextApp fontSize="20px" fontWeight={600} titulo={"Produtos"} />
-          <IconButtonTooltipApp
-            onClick={carregarFiltros}
-            icon={listaDeIcones.filtro}
-            titulo="Filtros"
-          />
-        </BoxApp>
-        <GridApp container spacing={3}>
-          {paginacao.values.map((produto) => (
-            <GridApp key={produto.id} xs={12} sm={6}>
-              <CardProduto produto={produto} />
+        {paginacaoProduto.status === "loading" ? (
+          <LoadingApp />
+        ) : (
+          <>
+            <BoxApp
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              padding="1rem"
+              gap="1rem"
+            >
+              <TextApp fontSize="20px" fontWeight={600} titulo={"Produtos"} />
+              <IconButtonTooltipApp
+                onClick={carregarFiltros}
+                icon={listaDeIcones.filtro}
+                titulo="Filtros"
+              />
+            </BoxApp>
+            <GridApp container spacing={3}>
+              {paginacao.values.map((produto) => (
+                <GridApp key={produto.id} xs={12} sm={6}>
+                  <CardProduto produto={produto} />
+                </GridApp>
+              ))}
             </GridApp>
-          ))}
-        </GridApp>
-        <BoxApp
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          padding="1rem"
-        >
-          <Pagination
-            count={paginacao.totalPaginas}
-            page={pagina}
-            onChange={(_, value) => setPagina(value)}
-            variant="outlined"
-            shape="rounded"
-          />
-        </BoxApp>
+            <BoxApp
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              padding="1rem"
+            >
+              <Pagination
+                count={paginacao.totalPaginas}
+                page={pagina}
+                onChange={(_, value) => setPagina(value)}
+                variant="outlined"
+                shape="rounded"
+              />
+            </BoxApp>
+          </>
+        )}
       </BoxApp>
       <ModalApp close={() => setOpenModal(false)} open={openModal}>
         {listarPesos.status === "loading" ||
