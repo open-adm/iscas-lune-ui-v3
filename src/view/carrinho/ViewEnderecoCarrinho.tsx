@@ -8,7 +8,7 @@ import { FormApp } from "@/components/Form/FormApp";
 import { FormItemRow } from "@/components/Form/FormItemRow";
 import { FormRow } from "@/components/Form/FormRow";
 import { IconConsultaCep } from "@/components/Icon/IconConsultaCep";
-import { InputApp } from "@/components/Input/InputApp";
+import { InputApp, MaskType } from "@/components/Input/InputApp";
 import ModalApp from "@/components/Modal/ModalApp";
 import { TextApp } from "@/components/Text/TextApp";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
@@ -79,6 +79,10 @@ export function ViewEnderecoCarrinho() {
           heigth="100%"
           submit={form.onSubmit}
         >
+          <AlertApp
+            tipo="info"
+            texto="Digite apenas números no campo CEP, sem pontos ou traços."
+          />
           <FormRow spacing={3}>
             <FormItemRow sm={3} xs={12}>
               <BoxApp display="flex" alignItems="center">
@@ -88,6 +92,7 @@ export function ViewEnderecoCarrinho() {
                   onChange={form.onChange}
                   value={form.values.cep}
                   maxLength={8}
+                  mask={MaskType.SOMENTE_NUMERO}
                   fullWidth
                   onBlur={form.onBlur}
                   error={form.error("cep")}
