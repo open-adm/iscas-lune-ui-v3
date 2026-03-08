@@ -10,15 +10,15 @@ import { ILojasParceiras } from "@/types/LojaParceira";
 import { IPaginacaoResponse } from "@/types/PaginacaoResponse";
 import { maskPhone } from "@/utils/MaskPhone";
 import {
-  Grid,
-  Typography,
   Box,
-  Tooltip,
-  IconButton,
   Card,
-  Pagination,
   CardContent,
   Divider,
+  Grid,
+  IconButton,
+  Pagination,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -68,7 +68,7 @@ export function ViewLojaParceira() {
     <>
       <Grid container spacing={6} sx={{ marginTop: "5rem", padding: "1rem" }}>
         {paginacao.values.map((loja, i) => (
-          <Grid item xs={12} sm={6} key={i}>
+          <Grid size={{ xs: 12, sm: 6 }} key={i}>
             <Card>
               {loja.foto && (
                 <BoxApp
