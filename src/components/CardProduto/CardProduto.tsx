@@ -1,14 +1,15 @@
-import { IProduto } from "@/types/Produto";
-import { BoxApp } from "../Box/BoxApp";
-import { TextApp } from "../Text/TextApp";
 import { listaDeIcones } from "@/config/ListaDeIcones";
-import { Button } from "../Button/ButtonApp";
-import { CardFoto } from "./CardFoto";
-import { useThemeApp } from "@/hooks/UseThemeApp";
-import { CardPesoTamanho } from "./CardPesoTamanho";
-import { useContext, useState } from "react";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
+import { useThemeApp } from "@/hooks/UseThemeApp";
+import { IProduto } from "@/types/Produto";
 import { cleanFormatMoney } from "@/utils/FormatMoney";
+import { useContext, useState } from "react";
+import { BoxApp } from "../Box/BoxApp";
+import { Button } from "../Button/ButtonApp";
+import { useSnackbar } from "../SnackBar/UseSnackBar";
+import { TextApp } from "../Text/TextApp";
+import { CardFoto } from "./CardFoto";
+import { CardPesoTamanho } from "./CardPesoTamanho";
 
 interface propsCardProduto {
   produto: IProduto;
@@ -19,6 +20,7 @@ interface propsCardProduto {
 }
 
 export function CardProduto(props: propsCardProduto) {
+  const { show } = useSnackbar();
   const [produto, setProduto] = useState(props.produto);
   const {
     adicionarItens,
@@ -30,6 +32,18 @@ export function CardProduto(props: propsCardProduto) {
   const width = isMobile ? "100%" : "50%";
 
   function onChangePeso(index: number, qtd?: number) {
+    if (
+      produto.pesos[index] &&
+      produto.pesos[index].quantidade &&
+      Number(qtd) > produto.pesos[index].quantidade
+    ) {
+      show(
+        `Quantidade disponível: ${produto.pesos[index].quantidade}.`,
+        "info"
+      );
+      return;
+    }
+
     if (produto.pesos[index].precoProduto) {
       let novosPesos = [...produto.pesos];
       novosPesos[index].precoProduto!.quantidade = qtd;
@@ -41,6 +55,17 @@ export function CardProduto(props: propsCardProduto) {
   }
 
   function onChangeTamanho(index: number, qtd?: number) {
+    if (
+      produto.tamanhos[index] &&
+      produto.tamanhos[index].quantidade &&
+      Number(qtd) > produto.tamanhos[index].quantidade
+    ) {
+      show(
+        `Quantidade disponível: ${produto.tamanhos[index].quantidade}.`,
+        "info"
+      );
+      return;
+    }
     if (produto.tamanhos[index].precoProduto) {
       let novosTamanhos = [...produto.tamanhos];
       novosTamanhos[index].precoProduto!.quantidade = qtd;
@@ -176,6 +201,8 @@ export function CardProduto(props: propsCardProduto) {
               {produto.pesos.map((peso, index) => (
                 <CardPesoTamanho
                   id={peso.id}
+                  quantidadeEstoqueDisponivel={peso.quantidade}
+                  temEstoqueDisponivel={peso.temEstoqueDisponivel}
                   onChange={(value) => onChangePeso(index, value)}
                   descricao={peso.descricao}
                   key={peso.id}
@@ -200,6 +227,8 @@ export function CardProduto(props: propsCardProduto) {
               {produto.tamanhos.map((tamanho, index) => (
                 <CardPesoTamanho
                   id={tamanho.id}
+                  quantidadeEstoqueDisponivel={tamanho.quantidade}
+                  temEstoqueDisponivel={tamanho.temEstoqueDisponivel}
                   onChange={(value) => onChangeTamanho(index, value)}
                   key={tamanho.id}
                   descricao={tamanho.descricao}

@@ -13,5 +13,5 @@ interface propsChipApp {
 }
 
 export function ChipApp(props: propsChipApp) {
-  return <Chip color={props.color} label={props.label} />;
+  return <Chip color={props.color} size="small" label={props.label} />;
 }

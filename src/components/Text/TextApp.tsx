@@ -29,8 +29,8 @@ export function TextApp(props: propsText) {
   const { cores } = useThemeApp();
   return (
     <Typography
-    variant='body2'
-    fontSize={props.fontSize}
+      variant='body2'
+      fontSize={props.fontSize}
       height={props.height}
       marginTop={props.marginTop}
       fontWeight={props.fontWeight}

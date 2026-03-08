@@ -4,4 +4,6 @@ import { IPrecoProduto } from "./PrecoProduto";
 export interface ITamanhos extends IBase {
   descricao: string;
   precoProduto?: IPrecoProduto;
+  temEstoqueDisponivel?: boolean;
+  quantidade?: number;
 }
