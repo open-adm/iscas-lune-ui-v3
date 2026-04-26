@@ -1,14 +1,14 @@
 "use client";
 
-import axios, { GenericAbortSignal } from "axios";
-import { useContext, useEffect, useRef, useState } from "react";
-import { keysLocalStorage } from "@/config/keysLocalStorage";
-import { useLocalStorage } from "./UseLocalStorage";
 import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
-import { useNavigateApp } from "./UseNavigateApp";
 import { rotas } from "@/config/ConfigRotas";
+import { keysLocalStorage } from "@/config/keysLocalStorage";
 import { AppAuthContext } from "@/context/AppAuthContext";
 import { StatusRequisicao } from "@/types/StatusRequisicao";
+import axios, { GenericAbortSignal } from "axios";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useLocalStorage } from "./UseLocalStorage";
+import { useNavigateApp } from "./UseNavigateApp";
 
 export type TypeMethod = "GET" | "POST" | "PUT" | "DELETE";
 interface propsUseApi {
