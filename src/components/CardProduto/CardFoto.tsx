@@ -1,6 +1,4 @@
-import { BoxApp } from "../Box/BoxApp";
-import { ImageApp } from "../Image/ImageApp";
-import styled from "./CarProduto.module.css";
+import Image from "next/image";
 
 interface propsFotoCard {
   backgroundColor: string;
@@ -12,27 +10,20 @@ interface propsFotoCard {
 
 export function CardFoto(props: propsFotoCard) {
   return (
-    <BoxApp
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width={'100%'}
-      maxWidth="320px"
-      height="auto"
-      overflowx="hidden"
-      overflowy="hidden"
-      position="relative"
-      borderRadius={props.borderRadius}
-    >
-      <ImageApp
-        className={styled.cardproduto}
+    <div style={{
+      position: "relative", width: "100%", height: "220px",
+
+    }}>
+      <Image
         src={props.foto}
         alt={props.descricao}
-        height={'auto'}
-        width={'100%'}
-        borderRadius="5px"
-        objectFit="cover"
+        fill
+        style={{
+          objectFit: "cover",
+          objectPosition: "center",
+          borderRadius: 5
+        }}
       />
-    </BoxApp>
+    </div>
   );
 }

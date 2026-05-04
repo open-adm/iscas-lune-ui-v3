@@ -2,13 +2,13 @@
 
 import { useProdutoApi } from "@/api/UseProdutoApi";
 import { BoxApp } from "@/components/Box/BoxApp";
+import { CardProduto } from "@/components/CardProduto/CardProduto";
 import { GridApp } from "@/components/Grid/GridApp";
 import { LoadingApp } from "@/components/Loading/LoadingApp";
 import { TextApp } from "@/components/Text/TextApp";
+import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { IProduto } from "@/types/Produto";
 import { useEffect, useState } from "react";
-import { CardProduto } from "@/components/CardProduto/CardProduto";
-import { useNavigateApp } from "@/hooks/UseNavigateApp";
 
 export function ViewCategoria() {
   const { listarPorCategorias } = useProdutoApi();
@@ -44,7 +44,7 @@ export function ViewCategoria() {
       )}
       <GridApp container spacing={3}>
         {produtos.map((produto) => (
-          <GridApp key={produto.id} xs={12} sm={6}>
+          <GridApp key={produto.id} xs={12} sm={3}>
             <CardProduto produto={produto} />
           </GridApp>
         ))}

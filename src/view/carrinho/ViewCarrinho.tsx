@@ -1,5 +1,6 @@
 "use client";
 
+import { AlertApp } from "@/components/Alert/AlertApp";
 import { BoxApp } from "@/components/Box/BoxApp";
 import { Button } from "@/components/Button/ButtonApp";
 import { CardProduto } from "@/components/CardProduto/CardProduto";
@@ -10,10 +11,9 @@ import { rotas } from "@/config/ConfigRotas";
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
+import { IProduto } from "@/types/Produto";
 import { useContext, useEffect } from "react";
 import { ViewResumoCarrinho } from "./ViewResumoCarrinho";
-import { IProduto } from "@/types/Produto";
-import { AlertApp } from "@/components/Alert/AlertApp";
 
 export function ViewCarrinho() {
   const {
@@ -81,16 +81,20 @@ export function ViewCarrinho() {
                 flexDirection="column"
                 gap="1rem"
               >
-                {produtos.map((produto, index) => (
-                  <CardProduto
-                    desabilitarBtnAddCarrinho
-                    key={produto.id}
-                    produto={produto}
-                    habilitarExclusaoProduto
-                    onBlur={(prod) => editarProduto(index, prod)}
-                    index={index}
-                  />
-                ))}
+                <GridApp container spacing={2}>
+                  {produtos.map((produto, index) => (
+                    <GridApp sm={4} xs={12} key={produto.id}>
+                      <CardProduto
+                        desabilitarBtnAddCarrinho
+
+                        produto={produto}
+                        habilitarExclusaoProduto
+                        onBlur={(prod) => editarProduto(index, prod)}
+                        index={index}
+                      />
+                    </GridApp>
+                  ))}
+                </GridApp>
               </BoxApp>
             </GridApp>
             <GridApp sm={4} xs={12}>

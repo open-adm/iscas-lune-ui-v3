@@ -29,7 +29,7 @@ export function CardProduto(props: propsCardProduto) {
     statusExcluirItem,
   } = useContext(AppCarrinhoContext);
   const { backgroundColor, borderRadius, isMobile } = useThemeApp();
-  const width = isMobile ? "100%" : "50%";
+  const width = "100%";
 
   function onChangePeso(index: number, qtd?: number) {
     if (
@@ -149,7 +149,7 @@ export function CardProduto(props: propsCardProduto) {
       borderRadius={borderRadius}
       padding="1rem"
       gap="1rem"
-      flexDirection={isMobile ? "column" : undefined}
+      flexDirection={"column"}
     >
       <CardFoto
         width={width}

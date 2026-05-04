@@ -104,7 +104,7 @@ export function ViewProduto() {
             </BoxApp>
             <GridApp container spacing={3}>
               {paginacao.values.map((produto) => (
-                <GridApp key={produto.id} xs={12} sm={6}>
+                <GridApp key={produto.id} xs={12} sm={3}>
                   <CardProduto produto={produto} />
                 </GridApp>
               ))}
@@ -128,8 +128,8 @@ export function ViewProduto() {
       </BoxApp>
       <ModalApp close={() => setOpenModal(false)} open={openModal}>
         {listarPesos.status === "loading" ||
-        listarTamanhos.status === "loading" ||
-        listarCategorias.status === "loading" ? (
+          listarTamanhos.status === "loading" ||
+          listarCategorias.status === "loading" ? (
           <LoadingApp width="350px" height="300px" marginTop="1rem" />
         ) : (
           <form>
