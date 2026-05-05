@@ -7,7 +7,8 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-RUN npm run build
+#RUN npm run build
+RUN npm run build && rm -rf node_modules && npm install --production --legacy-peer-deps
 
 FROM node:24-alpine
 
