@@ -21,7 +21,7 @@ export function CardFoto(props: propsFotoCard) {
         style={{
           objectFit: "cover",
           objectPosition: "center",
-          borderRadius: 5
+          borderRadius: '5px 5px 0px 0px',
         }}
       />
     </div>

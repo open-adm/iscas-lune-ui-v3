@@ -62,31 +62,32 @@ export function ViewCarrinho() {
   }
 
   return (
-    <BoxApp width="100vw" padding="1rem">
+    <BoxApp width="100vw">
       {statusObterItens === "loading" ? (
         <LoadingApp height="350px" />
       ) : (
         <>
-          <AlertApp
-            tipo="warning"
-            texto="Atenção, nosso tempo mínimo de entrega do pedido é de 30 dias."
-          />
+          <BoxApp padding="0.5rem">
+            <AlertApp
+              tipo="warning"
+              texto="Atenção, nosso tempo mínimo de entrega do pedido é de 30 dias."
+            />
+          </BoxApp>
           <GridApp container spacing={2}>
-            <GridApp sm={8} xs={12}>
+            <GridApp sm={8} xs={12} md={8}>
               <BoxApp
                 height="calc(100vh - 60px)"
                 overflowy="auto"
-                padding="1rem"
+                padding="0.5rem"
                 display="flex"
                 flexDirection="column"
                 gap="1rem"
               >
                 <GridApp container spacing={2}>
                   {produtos.map((produto, index) => (
-                    <GridApp sm={4} xs={12} key={produto.id}>
+                    <GridApp sm={6} xs={12} md={6} lg={4} key={produto.id}>
                       <CardProduto
                         desabilitarBtnAddCarrinho
-
                         produto={produto}
                         habilitarExclusaoProduto
                         onBlur={(prod) => editarProduto(index, prod)}

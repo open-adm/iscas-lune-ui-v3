@@ -147,7 +147,7 @@ export function CardProduto(props: propsCardProduto) {
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
       }}
       borderRadius={borderRadius}
-      padding="1rem"
+      //padding="1rem"
       gap="1rem"
       flexDirection={"column"}
     >
@@ -171,6 +171,7 @@ export function CardProduto(props: propsCardProduto) {
           alignItems="center"
           justifyContent="space-between"
           width="100%"
+          padding="0rem 1rem 0rem 1rem"
         >
           <TextApp
             titulo={produto.descricao}
@@ -184,7 +185,7 @@ export function CardProduto(props: propsCardProduto) {
           />
         </BoxApp>
         <form
-          style={{ width: "100%" }}
+          style={{ width: "100%", padding: '1rem' }}
           onSubmit={async (e) => {
             e.preventDefault();
             await adicionar();
