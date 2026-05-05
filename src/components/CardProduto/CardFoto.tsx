@@ -18,6 +18,7 @@ export function CardFoto(props: propsFotoCard) {
         src={props.foto}
         alt={props.descricao}
         fill
+        unoptimized
         style={{
           objectFit: "cover",
           objectPosition: "center",
