@@ -6,7 +6,7 @@ export function useListarCategoriasApi() {
   const [categorias, setCategorias] = useState<ICategoria[]>([]);
   const apiList = useApi({
     method: "GET",
-    url: "categorias/list",
+    url: "ecommerce/categorias/listar",
     statusInicial: "loading",
   });
 

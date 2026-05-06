@@ -1,8 +1,8 @@
-import { IBanner } from "@/types/Banner";
-import styles from "./BannerView.module.css";
 import { ImageApp } from "@/components/Image/ImageApp";
-import { StatusRequisicao } from "@/types/StatusRequisicao";
 import { LoadingApp } from "@/components/Loading/LoadingApp";
+import { IBanner } from "@/types/Banner";
+import { StatusRequisicao } from "@/types/StatusRequisicao";
+import styles from "./BannerView.module.css";
 
 interface propsBannerView {
   banners: IBanner[];
@@ -21,23 +21,23 @@ export function BannerView(props: propsBannerView) {
       )}
       <div className={styles.carrossel}>
         <div className={styles.track}>
-          {props.banners.map((banner) => (
+          {props.banners.map((banner, index) => (
             <ImageApp
               width={300}
               height={200}
-              key={banner.id}
+              key={index}
               src={banner.foto}
-              alt={banner.id}
+              alt={index.toString()}
               className={styles.image}
             />
           ))}
-          {props.banners.map((banner) => (
+          {props.banners.map((banner, index) => (
             <ImageApp
               width={300}
               height={200}
-              key={banner.id}
+              key={index}
               src={banner.foto}
-              alt={banner.id}
+              alt={index.toString()}
               className={styles.image}
             />
           ))}

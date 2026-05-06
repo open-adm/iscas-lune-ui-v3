@@ -191,7 +191,7 @@ export function CardProduto(props: propsCardProduto) {
             await adicionar();
           }}
         >
-          {produto.pesos.length > 0 && (
+          {produto.pesos?.length > 0 && (
             <BoxApp
               width="100%"
               display="flex"
@@ -213,7 +213,7 @@ export function CardProduto(props: propsCardProduto) {
               ))}
             </BoxApp>
           )}
-          {produto.tamanhos.length > 0 && (
+          {produto.tamanhos?.length > 0 && (
             <BoxApp
               width="100%"
               display="flex"
