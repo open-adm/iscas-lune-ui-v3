@@ -1,18 +1,18 @@
+import { UsePedidoApi } from "@/api/UsePedidoApi";
+import { AlertApp } from "@/components/Alert/AlertApp";
 import { BoxApp } from "@/components/Box/BoxApp";
 import { Button } from "@/components/Button/ButtonApp";
+import { DividerApp } from "@/components/Divider/DividerApp";
+import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
 import { TextApp } from "@/components/Text/TextApp";
+import { rotas } from "@/config/ConfigRotas";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
+import { useNavigateApp } from "@/hooks/UseNavigateApp";
+import { IPedidoMinimo } from "@/types/PedidoMinimo";
 import { formatMoney } from "@/utils/FormatMoney";
 import { useContext, useEffect, useState } from "react";
-import { ViewTotalizadorCarrinho } from "./ViewTotalizadoCarrinho";
-import { IPedidoMinimo } from "@/types/PedidoMinimo";
-import { UsePedidoApi } from "@/api/UsePedidoApi";
-import { useNavigateApp } from "@/hooks/UseNavigateApp";
-import { rotas } from "@/config/ConfigRotas";
-import { DividerApp } from "@/components/Divider/DividerApp";
-import { AlertApp } from "@/components/Alert/AlertApp";
 import { ViewEnderecoCarrinho } from "./ViewEnderecoCarrinho";
-import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
+import { ViewTotalizadorCarrinho } from "./ViewTotalizadoCarrinho";
 
 export function ViewResumoCarrinho() {
   const [pedidoMinimo, setPedidoMinimo] = useState<IPedidoMinimo>();
@@ -32,7 +32,7 @@ export function ViewResumoCarrinho() {
     (valor, peso) =>
       valor +
       (peso.precoProduto?.valorUnitario ?? 0) *
-        (peso.precoProduto?.quantidade ?? 0),
+      (peso.precoProduto?.quantidade ?? 0),
     0
   );
 
@@ -40,7 +40,7 @@ export function ViewResumoCarrinho() {
     (valor, peso) =>
       valor +
       (peso.precoProduto?.valorUnitario ?? 0) *
-        (peso.precoProduto?.quantidade ?? 0),
+      (peso.precoProduto?.quantidade ?? 0),
     0
   );
 
@@ -183,7 +183,7 @@ export function ViewResumoCarrinho() {
       <BoxApp marginTop="1rem">
         <Button
           disabled={!naoFechouPedidoMinimo}
-          title="FINALIZAr pedido"
+          title="Finalizar pedido"
           variant="contained"
           fullWidth
           loading={criarPedido.status === "loading"}
