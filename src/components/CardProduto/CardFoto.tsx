@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 interface propsFotoCard {
-  backgroundColor: string;
   foto: string;
   descricao: string;
   borderRadius: string;

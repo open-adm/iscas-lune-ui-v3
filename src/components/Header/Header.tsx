@@ -1,20 +1,20 @@
 "use client";
 
-import { useContext, useState } from "react";
-import { BoxApp } from "../Box/BoxApp";
-import { TextApp } from "../Text/TextApp";
-import { MenuApp } from "../Menu/MenuApp";
-import styles from "./Header.module.css";
-import { useThemeApp } from "@/hooks/UseThemeApp";
-import { useNavigateApp } from "@/hooks/UseNavigateApp";
-import { MenuUsuarioApp } from "../MenuUsuario/MenuUsuarioApp";
 import { rotas } from "@/config/ConfigRotas";
-import { Badge, BadgeProps, IconButton } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { IconApp } from "../Icon/IconApp";
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
+import { AppThemeContext } from "@/context/AppThemeContext";
+import { useNavigateApp } from "@/hooks/UseNavigateApp";
+import { useThemeApp } from "@/hooks/UseThemeApp";
+import { Badge, BadgeProps, IconButton } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { useContext, useState } from "react";
+import { BoxApp } from "../Box/BoxApp";
 import { Button } from "../Button/ButtonApp";
+import { IconApp } from "../Icon/IconApp";
+import { MenuApp } from "../Menu/MenuApp";
+import { MenuUsuarioApp } from "../MenuUsuario/MenuUsuarioApp";
+import styles from "./Header.module.css";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -26,7 +26,8 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 export function Header() {
-  const { backgroundColor, isMobile } = useThemeApp();
+  const { backgroundColor } = useThemeApp();
+  const { handleMode, mode } = useContext(AppThemeContext)
   const { navigate } = useNavigateApp();
   const { quantidadeItensCarrinho } = useContext(AppCarrinhoContext);
   const [open, setOpen] = useState(false);
@@ -40,7 +41,9 @@ export function Header() {
       <MenuApp close={toogleOpen} open={open} />
       <header
         className={styles.headerMain}
-        style={{ backgroundColor: backgroundColor.card }}
+        style={{
+          backgroundColor: backgroundColor.card, boxShadow: mode ? "0 4px 24px rgba(0, 0, 0, .4)" : "0 4px 20px rgba(0,0,0,.15)",
+        }}
       >
         <Button title="Menu" onClick={toogleOpen} />
         <Button
@@ -49,6 +52,12 @@ export function Header() {
           onClick={() => navigate(rotas.home)}
         />
         <BoxApp display="flex" alignItems="center">
+          <IconButton
+            aria-label="theme"
+            onClick={handleMode}
+          >
+            <IconApp icon={listaDeIcones.tema} />
+          </IconButton>
           <IconButton
             aria-label="cart"
             onClick={() => navigate(rotas.carrinho)}
@@ -59,7 +68,7 @@ export function Header() {
           </IconButton>
           <MenuUsuarioApp />
         </BoxApp>
-      </header>
+      </header >
     </>
   );
 }

@@ -1,16 +1,16 @@
 "use client";
 
+import { rotas } from "@/config/ConfigRotas";
 import { listaDeIcones } from "@/config/ListaDeIcones";
+import { useCategoriasContext } from "@/context/hooks/UseCategoriaContext";
+import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { BoxApp } from "../Box/BoxApp";
+import { Button } from "../Button/ButtonApp";
 import { IconButtonTooltipApp } from "../Icon/IconButtonTooltipApp";
 import { TextApp } from "../Text/TextApp";
-import { useNavigateApp } from "@/hooks/UseNavigateApp";
-import { useListarCategoriasApi } from "@/api/UseListarCategoriasApi";
-import { rotas } from "@/config/ConfigRotas";
-import { Button } from "../Button/ButtonApp";
 
 export function Footer() {
-  const { categorias } = useListarCategoriasApi();
+  const { categorias } = useCategoriasContext();
   const { navigate } = useNavigateApp();
 
   return (

@@ -1,6 +1,5 @@
 "use client";
 
-import { useListarCategoriasApi } from "@/api/UseListarCategoriasApi";
 import { usePesoApi } from "@/api/UsePesoTamanho";
 import { useProdutoApi } from "@/api/UseProdutoApi";
 import { useTamanhoApi } from "@/api/UseTamanhoApi";
@@ -14,6 +13,7 @@ import ModalApp from "@/components/Modal/ModalApp";
 import SelectApp from "@/components/Select/SelectApp";
 import { TextApp } from "@/components/Text/TextApp";
 import { listaDeIcones } from "@/config/ListaDeIcones";
+import { useCategoriasContext } from "@/context/hooks/UseCategoriaContext";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { IPaginacaoResponse } from "@/types/PaginacaoResponse";
 import { IPeso } from "@/types/Peso";
@@ -26,7 +26,7 @@ export function ViewProduto() {
   const { paginacaoProduto } = useProdutoApi();
   const { listarTamanhos } = useTamanhoApi();
   const { listarPesos } = usePesoApi();
-  const listarCategorias = useListarCategoriasApi();
+  const { categorias } = useCategoriasContext();
   const { isMobile } = useThemeApp();
   const [pagina, setPagina] = useState(1);
   const [openModal, setOpenModal] = useState(false);
@@ -128,8 +128,7 @@ export function ViewProduto() {
       </BoxApp>
       <ModalApp close={() => setOpenModal(false)} open={openModal}>
         {listarPesos.status === "loading" ||
-          listarTamanhos.status === "loading" ||
-          listarCategorias.status === "loading" ? (
+          listarTamanhos.status === "loading" ? (
           <LoadingApp width="350px" height="300px" marginTop="1rem" />
         ) : (
           <form>
@@ -146,7 +145,7 @@ export function ViewProduto() {
                 keyDescricao="descricao"
                 keyValue="id"
                 label="Categoria"
-                opcoes={listarCategorias.categorias ?? []}
+                opcoes={categorias ?? []}
                 id="categorias"
                 width="100%"
                 value={categoria}

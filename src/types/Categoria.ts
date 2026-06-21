@@ -5,4 +5,5 @@ export interface ICategoria extends IBase {
   descricao: string;
   foto?: string;
   produtos: IProduto[];
+  quantidadeDeProdutos?: number
 }

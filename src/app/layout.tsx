@@ -1,12 +1,13 @@
 "use client";
 
-import "./globals.css";
-import { Header } from "@/components/Header/Header";
-import { AppThemeProvider } from "@/context/AppThemeContext";
 import { Footer } from "@/components/Footer/Footer";
+import { Header } from "@/components/Header/Header";
 import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
 import { AppAuthProvider } from "@/context/AppAuthContext";
 import { AppCarrinhoProvider } from "@/context/AppCarrinhoContext";
+import { CategoriasProvider } from "@/context/AppCategoriaContext";
+import { AppThemeProvider } from "@/context/AppThemeContext";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -28,28 +29,21 @@ export default function RootLayout({
           name="description"
           content={`Iscas lune – Ecommerce – iscas artificiais.`}
         />
-        {/* <meta
-          name="google-signin-client_id"
-          content="717327799870-28vqn7bf8v6hscguui1dasft2m7teb6e.apps.googleusercontent.com"
-        />
-        <script
-          src="https://apis.google.com/js/platform.js"
-          async
-          defer
-        ></script> */}
       </head>
       <AppThemeProvider>
         <AppAuthProvider>
-          <AppCarrinhoProvider>
-            <body className="body-principal">
-              <Snack.Componet />
-              <div className="container-div">
-                <Header />
-                <main className="container-main">{children}</main>
-                <Footer />
-              </div>
-            </body>
-          </AppCarrinhoProvider>
+          <CategoriasProvider>
+            <AppCarrinhoProvider>
+              <body className="body-principal">
+                <Snack.Componet />
+                <div className="container-div">
+                  <Header />
+                  <main className="container-main">{children}</main>
+                  <Footer />
+                </div>
+              </body>
+            </AppCarrinhoProvider>
+          </CategoriasProvider>
         </AppAuthProvider>
       </AppThemeProvider>
     </html>

@@ -149,12 +149,12 @@ export function CardProduto(props: propsCardProduto) {
       borderRadius={borderRadius}
       //padding="1rem"
       gap="1rem"
+      backgroundColor={backgroundColor.card}
       flexDirection={"column"}
     >
       <CardFoto
         width={width}
         borderRadius={borderRadius}
-        backgroundColor={backgroundColor.default}
         descricao={produto.descricao}
         foto={produto.foto}
       />

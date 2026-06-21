@@ -1,14 +1,9 @@
 import { createTheme } from "@mui/material";
+import { componentsOverrides } from "./Overrides";
 
 export const LigthTheme = createTheme({
   components: {
-    MuiTypography: {
-      defaultProps: {
-        variantMapping: {
-          body1: "label",
-        },
-      },
-    },
+    ...componentsOverrides,
   },
   shape: {
     borderRadius: 5,

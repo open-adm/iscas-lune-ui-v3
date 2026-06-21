@@ -19,4 +19,5 @@ export const listaDeIcones = {
   searchGlobal: "streamline-ultimate:network-search",
   loading: "eos-icons:bubble-loading",
   download: "material-symbols-light:download",
+  tema: "mdi:theme-light-dark",
 };
