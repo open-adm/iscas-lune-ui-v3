@@ -40,7 +40,8 @@ export function BannerView(props: propsBannerView) {
         height: { xs: 200, md: 350 },
         overflow: "hidden",
         borderRadius: 2,
-        marginTop: "1rem"
+        marginTop: "1rem",
+        padding: '1rem'
       }}
     >
       {banners.map((banner, i) => (

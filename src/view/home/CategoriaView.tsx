@@ -1,5 +1,6 @@
 import { BoxApp } from "@/components/Box/BoxApp";
 import { GridApp } from "@/components/Grid/GridApp";
+import { TextApp } from "@/components/Text/TextApp";
 import { rotas } from "@/config/ConfigRotas";
 import { useCategoriasContext } from "@/context/hooks/UseCategoriaContext";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
@@ -16,10 +17,14 @@ export function CategoriaView() {
   }
 
   return (
-    <BoxApp padding="1rem">
-      <GridApp container>
+    <>
+      <BoxApp marginBottom="1rem">
+        <TextApp color={cores.primary.main} titulo="Explore" />
+        <TextApp fontSize="26px" fontWeight={600} titulo="Categorias" />
+      </BoxApp>
+      <GridApp container spacing={2}>
         {categorias.map((categoria) => (
-          <GridApp padding="1rem" xs={12} sm={3} md={4} key={categoria.id}>
+          <GridApp xs={12} sm={3} md={4} key={categoria.id}>
             <Card
               onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
               sx={{
@@ -90,6 +95,7 @@ export function CategoriaView() {
                   sx={{
                     fontWeight: 700,
                     mb: 1,
+                    fontSize: '16px'
                   }}
                 >
                   {categoria.descricao}
@@ -98,6 +104,7 @@ export function CategoriaView() {
                 <Typography
                   className="explore"
                   sx={{
+                    fontSize: '14px',
                     color: cores.primary.main,
                     fontWeight: 600,
                     opacity: 0,
@@ -112,6 +119,6 @@ export function CategoriaView() {
           </GridApp>
         ))}
       </GridApp>
-    </BoxApp>
+    </>
   );
 }

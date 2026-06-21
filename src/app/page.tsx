@@ -7,6 +7,7 @@ import { rotas } from "@/config/ConfigRotas";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { BannerView } from "@/view/home/BannerView";
 import { CategoriaView } from "@/view/home/CategoriaView";
+import { LojasParceirasView } from "@/view/home/LojasParceirasView";
 
 export default function Home() {
   const apiBanner = useBannerApi();
@@ -14,7 +15,7 @@ export default function Home() {
 
 
   return (
-    <BoxApp height="100%">
+    <BoxApp height="100%" padding="1rem">
       <BannerView banners={apiBanner.banners} status={apiBanner.status} />
       <BoxApp
         display="flex"
@@ -30,6 +31,7 @@ export default function Home() {
         />
       </BoxApp>
       <CategoriaView />
+      <LojasParceirasView />
     </BoxApp>
   );
 }
