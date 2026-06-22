@@ -1,6 +1,6 @@
 import { useApi } from "@/hooks/UseApi";
 import { IPaginacaoResponse } from "@/types/PaginacaoResponse";
-import { IProduto } from "@/types/Produto";
+import { IProduto, IProdutoEcommerce } from "@/types/Produto";
 import { IProdutoPaginacao } from "@/types/ProdutoPaginacao";
 
 export function useProdutoApi() {
@@ -11,9 +11,10 @@ export function useProdutoApi() {
   });
 
   const apiListarPaginacao = useApi({
-    method: "GET",
-    url: "produtos/list",
+    method: "POST",
+    url: "produto-ecommerce",
     statusInicial: "loading",
+    naoRenderizarResposta: true
   });
 
   async function listarPorCategorias(
@@ -26,13 +27,9 @@ export function useProdutoApi() {
 
   async function paginacaoProduto(
     produtoPaginacao: IProdutoPaginacao
-  ): Promise<IPaginacaoResponse<IProduto> | undefined> {
+  ): Promise<IPaginacaoResponse<IProdutoEcommerce> | undefined> {
     return await apiListarPaginacao.action({
-      urlParams: `?page=${produtoPaginacao.page}&categoriaId=${
-        produtoPaginacao.categoriaId ?? ""
-      }&pesoId=${produtoPaginacao.pesoId ?? ""}&tamanhoId=${
-        produtoPaginacao.tamanhoId ?? ""
-      }`,
+      body: produtoPaginacao
     });
   }
 

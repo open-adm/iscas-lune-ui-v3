@@ -12,3 +12,23 @@ export interface IProduto extends IBase {
   pesos: IPeso[];
   tamanhos: ITamanhos[];
 }
+
+export interface IProdutoEcommerce {
+  id: string,
+  descricao: string,
+  referencia?: string,
+  foto: string,
+  categoria: string,
+  numero: number,
+  tamanhos: IProdutoTamanhoPesoEcommerce[],
+  pesos: IProdutoTamanhoPesoEcommerce[]
+}
+
+export interface IProdutoTamanhoPesoEcommerce {
+  id: string
+  descricao: string
+  quantidade?: number
+  valorUnitario?: number
+  quantidadeEstoqueDisponivel?: number
+  temEstoqueDisponivel?: boolean
+}

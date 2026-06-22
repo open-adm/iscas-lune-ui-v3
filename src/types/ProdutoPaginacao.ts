@@ -1,6 +1,6 @@
 export interface IProdutoPaginacao {
   page: number;
-  categoriaId?: string;
-  tamanhoId?: string;
-  pesoId?: string;
+  categoriasIds?: string[];
+  pesosIds?: string[];
+  tamanhosIds?: string[];
 }

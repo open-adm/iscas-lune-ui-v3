@@ -42,7 +42,7 @@ export function LojasParceirasView() {
     }
 
     return <>
-        {lojas.length && (
+        {lojas.length > 0 && (
             <>
                 <BoxApp marginBottom="1rem" marginTop="1rem">
                     <TextApp color={cores.primary.main} titulo="Explore" />
