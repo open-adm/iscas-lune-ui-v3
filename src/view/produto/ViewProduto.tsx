@@ -86,18 +86,20 @@ export function ViewProduto() {
     carregarFiltros();
   }, []);
 
-  async function carregarProdutos() {
+  async function carregarProdutos(page?: number) {
     window.scrollTo(0, 0);
 
     const response = await paginacaoProduto.fetch({
-      page: pagina,
+      page: page ?? pagina,
       categoriasIds,
       pesosIds,
       tamanhosIds,
     });
 
     if (response) {
-      setPaginacao(response);
+      setPaginacao({
+        ...response
+      });
     }
   }
 
@@ -106,7 +108,7 @@ export function ViewProduto() {
   }, [pagina]);
 
   useEffect(() => {
-    setPagina(1);
+    carregarProdutos(1);
   }, [categoriasIds, pesosIds, tamanhosIds]);
 
   return (
@@ -114,16 +116,17 @@ export function ViewProduto() {
       <BoxApp padding="1rem" maxWidth="1200px">
         <>
           {isMobile && (
-            <MenuFiltroMobile menuFiltro={<MenuFiltro
-              categorias={categorias}
-              pesos={pesos}
-              tamanhos={tamanhos}
-              categoriasIds={categoriasIds}
-              pesosIds={pesosIds}
-              tamanhosIds={tamanhosIds}
-              filtrar={filtrar}
-              height="calc(100vh - 100px)"
-              width="100%" />
+            <MenuFiltroMobile menuFiltro={
+              <MenuFiltro
+                categorias={categorias}
+                pesos={pesos}
+                tamanhos={tamanhos}
+                categoriasIds={categoriasIds}
+                pesosIds={pesosIds}
+                tamanhosIds={tamanhosIds}
+                filtrar={filtrar}
+                height="calc(100vh - 100px)"
+                width="100%" />
             }
               close={() => setOpen(false)}
               open={open}
