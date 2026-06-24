@@ -24,7 +24,7 @@ export function CategoriaView() {
       </BoxApp>
       <GridApp container spacing={2}>
         {categorias.map((categoria) => (
-          <GridApp xs={12} sm={3} md={4} key={categoria.id}>
+          <GridApp xs={12} sm={3} md={3} key={categoria.id}>
             <Card
               onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
               sx={{

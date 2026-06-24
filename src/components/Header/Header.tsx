@@ -3,7 +3,6 @@
 import { rotas } from "@/config/ConfigRotas";
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
-import { AppThemeContext } from "@/context/AppThemeContext";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { Badge, BadgeProps, IconButton } from "@mui/material";
@@ -27,7 +26,6 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 
 export function Header() {
   const { backgroundColor } = useThemeApp();
-  const { handleMode, mode } = useContext(AppThemeContext)
   const { navigate } = useNavigateApp();
   const { quantidadeItensCarrinho } = useContext(AppCarrinhoContext);
   const [open, setOpen] = useState(false);
@@ -42,7 +40,7 @@ export function Header() {
       <header
         className={styles.headerMain}
         style={{
-          backgroundColor: backgroundColor.card, boxShadow: mode ? "0 4px 24px rgba(0, 0, 0, .4)" : "0 4px 20px rgba(0,0,0,.15)",
+          backgroundColor: backgroundColor.card, boxShadow: "0 4px 24px rgba(0, 0, 0, .4)",
         }}
       >
         <Button title="Menu" onClick={toogleOpen} />
@@ -52,12 +50,6 @@ export function Header() {
           onClick={() => navigate(rotas.home)}
         />
         <BoxApp display="flex" alignItems="center">
-          <IconButton
-            aria-label="theme"
-            onClick={handleMode}
-          >
-            <IconApp icon={listaDeIcones.tema} />
-          </IconButton>
           <IconButton
             aria-label="cart"
             onClick={() => navigate(rotas.carrinho)}
