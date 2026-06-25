@@ -1,7 +1,7 @@
-import Drawer from "@mui/material/Drawer";
-import { BoxApp } from "../Box/BoxApp";
+import { rotas } from "@/config/ConfigRotas";
 import { listaDeIcones } from "@/config/ListaDeIcones";
-import { IconButtonApp } from "../Icon/IconButtonApp";
+import { useCategoriasContext } from "@/context/hooks/UseCategoriaContext";
+import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import {
   List,
   ListItem,
@@ -9,9 +9,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import { BoxApp } from "../Box/BoxApp";
+import { DividerApp } from "../Divider/DividerApp";
 import { IconApp } from "../Icon/IconApp";
-import { useNavigateApp } from "@/hooks/UseNavigateApp";
-import { rotas } from "@/config/ConfigRotas";
+import { IconButtonApp } from "../Icon/IconButtonApp";
+import { TextApp } from "../Text/TextApp";
 
 interface propsMenuApp {
   open: boolean;
@@ -20,6 +23,7 @@ interface propsMenuApp {
 
 export function MenuApp(props: propsMenuApp) {
   const { navigate } = useNavigateApp();
+  const { categorias } = useCategoriasContext()
 
   function navegarMenu(url: string) {
     navigate(url);
@@ -48,29 +52,28 @@ export function MenuApp(props: propsMenuApp) {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu(rotas.categoria)}>
-                <ListItemIcon>
-                  <IconApp icon={listaDeIcones.categoria} />
-                </ListItemIcon>
-                <ListItemText primary="Categorias" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
               <ListItemButton onClick={() => navegarMenu(rotas.produto)}>
                 <ListItemIcon>
                   <IconApp icon={listaDeIcones.produto} />
                 </ListItemIcon>
-                <ListItemText primary="Produtos" />
+                <ListItemText primary="Todos produtos" />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu(rotas.lojaParceira)}>
-                <ListItemIcon>
-                  <IconApp icon={listaDeIcones.lojaParceia} />
-                </ListItemIcon>
-                <ListItemText primary="Lojas parceiras" />
-              </ListItemButton>
-            </ListItem>
+            <DividerApp chip="Categorias" />
+            {categorias.map((categoria) => (
+              <ListItem key={categoria.id} disablePadding>
+                <ListItemButton onClick={() => navigate(`${rotas.produto}/${categoria.descricao}`)}>
+
+                  <ListItemText primary={categoria.descricao} />
+                  <BoxApp display="flex" alignItems="center" gap="0.5rem">
+                    <TextApp titulo={String(categoria.quantidadeDeProdutos)} />
+                  </BoxApp>
+
+
+                </ListItemButton>
+              </ListItem>
+            ))}
+            <DividerApp />
             <ListItem disablePadding>
               <ListItemButton onClick={() => navegarMenu(rotas.minhaConta)}>
                 <ListItemIcon>

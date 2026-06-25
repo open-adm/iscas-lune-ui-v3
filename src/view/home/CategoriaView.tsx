@@ -26,7 +26,7 @@ export function CategoriaView() {
         {categorias.map((categoria) => (
           <GridApp xs={12} sm={3} md={3} key={categoria.id}>
             <Card
-              onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
+              onClick={() => navigate(`${rotas.produto}/${categoria.descricao}`)}
               sx={{
                 position: "relative",
                 overflow: "hidden",

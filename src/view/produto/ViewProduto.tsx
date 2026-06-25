@@ -13,6 +13,7 @@ import { IconButtonTooltipApp } from "@/components/Icon/IconButtonTooltipApp";
 import { TextApp } from "@/components/Text/TextApp";
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { useCategoriasContext } from "@/context/hooks/UseCategoriaContext";
+import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { ICategoria } from "@/types/Categoria";
 import { IPaginacaoResponse } from "@/types/PaginacaoResponse";
@@ -22,12 +23,15 @@ import { ITamanhos } from "@/types/Tamanho";
 import { Drawer, Pagination } from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
 
+type TipoFiltro = 'categoriasIds' | 'pesosIds' | 'tamanhosIds';
+
 export function ViewProduto() {
   const { paginacaoProduto } = useProdutoApi();
   const { isMobile } = useThemeApp();
   const { categorias } = useCategoriasContext()
   const { listarTamanhos } = useTamanhoApi();
   const { listarPesos } = usePesoApi();
+  const { params } = useNavigateApp();
 
   const [pagina, setPagina] = useState(1);
   const [open, setOpen] = useState(false);
@@ -43,34 +47,65 @@ export function ViewProduto() {
     values: [],
   });
 
-  function filtrar(id: string, value: boolean, tipoFiltro: 'categoria' | 'peso' | 'tamanho') {
-    if (tipoFiltro === 'categoria') {
-      if (value) {
-        setCategoriasIds([...categoriasIds, id])
-      } else {
-        setCategoriasIds(categoriasIds.filter((x) => x !== id))
-      }
-      return
-    }
+  async function carregarProdutos(categorias: string[], pesos: string[], tamanhos: string[], page = 1) {
+    window.scrollTo(0, 0);
 
-    if (tipoFiltro === 'peso') {
-      if (value) {
-        setPesosIds([...pesosIds, id])
-      } else {
-        setPesosIds(pesosIds.filter((x) => x !== id))
-      }
-      return
-    }
+    const response = await paginacaoProduto.fetch({
+      page,
+      categoriasIds: categorias,
+      pesosIds: pesos,
+      tamanhosIds: tamanhos,
+    });
 
-    if (tipoFiltro === 'tamanho') {
-      if (value) {
-        setTamanhosIds([...tamanhosIds, id])
-      } else {
-        setTamanhosIds(tamanhosIds.filter((x) => x !== id))
-      }
-      return
+    if (response) {
+      setPaginacao(response);
     }
   }
+
+  async function mudarPagina(value: number) {
+    setPagina(value);
+    await carregarProdutos(categoriasIds, pesosIds, tamanhosIds, value);
+  }
+
+  async function filtrar(id: string, value: boolean, tipoFiltro: TipoFiltro) {
+    setPagina(1);
+
+    if (tipoFiltro === 'categoriasIds') {
+      const novasCategorias = value ? [...categoriasIds, id] : categoriasIds.filter(x => x !== id)
+      setCategoriasIds(novasCategorias);
+
+      await carregarProdutos(novasCategorias, pesosIds, tamanhosIds, 1)
+    }
+
+    if (tipoFiltro === 'pesosIds') {
+      const novoPesosIds = value ? [...pesosIds, id] : pesosIds.filter(x => x !== id)
+      setPesosIds(novoPesosIds);
+      await carregarProdutos(categoriasIds, novoPesosIds, tamanhosIds, 1)
+    }
+
+    if (tipoFiltro === 'tamanhosIds') {
+      const novosTamanhosIds = value ? [...tamanhosIds, id] : tamanhosIds.filter(x => x !== id)
+      setTamanhosIds(novosTamanhosIds);
+      await carregarProdutos(categoriasIds, pesosIds, novosTamanhosIds, 1)
+    }
+  }
+
+  useEffect(() => {
+    if (!params?.slug || categorias.length === 0) return;
+
+    const slug = decodeURIComponent(params.slug as string ?? '');
+
+    const categoria = categorias.find(
+      (x) => x.descricao.trim() === slug
+    );
+
+    if (!categoria) return;
+
+    const novasCategoriasIds = [categoria.id];
+
+    carregarProdutos(novasCategoriasIds, [], [], 1);
+    setCategoriasIds(novasCategoriasIds);
+  }, [params?.slug]);
 
   useEffect(() => {
     async function carregarFiltros() {
@@ -85,31 +120,6 @@ export function ViewProduto() {
 
     carregarFiltros();
   }, []);
-
-  async function carregarProdutos(page?: number) {
-    window.scrollTo(0, 0);
-
-    const response = await paginacaoProduto.fetch({
-      page: page ?? pagina,
-      categoriasIds,
-      pesosIds,
-      tamanhosIds,
-    });
-
-    if (response) {
-      setPaginacao({
-        ...response
-      });
-    }
-  }
-
-  useEffect(() => {
-    carregarProdutos();
-  }, [pagina]);
-
-  useEffect(() => {
-    carregarProdutos(1);
-  }, [categoriasIds, pesosIds, tamanhosIds]);
 
   return (
     <>
@@ -176,7 +186,7 @@ export function ViewProduto() {
             <Pagination
               count={paginacao.totalPaginas}
               page={pagina}
-              onChange={(_, value) => setPagina(value)}
+              onChange={async (_, value) => await mudarPagina(value)}
               variant="outlined"
               shape="rounded"
             />
@@ -218,7 +228,7 @@ interface MenuFiltroProps {
   categoriasIds: string[]
   pesosIds: string[]
   tamanhosIds: string[]
-  filtrar: (id: string, value: boolean, tipoFiltro: 'categoria' | 'peso' | 'tamanho') => void
+  filtrar: (id: string, value: boolean, tipoFiltro: TipoFiltro) => Promise<any>
 }
 
 function MenuFiltro(props: MenuFiltroProps) {
@@ -231,7 +241,7 @@ function MenuFiltro(props: MenuFiltroProps) {
         <BoxApp key={categoria.id} display="flex" alignItems="center">
           <CheckBoxApp
             id={categoria.id}
-            onChange={(value) => props.filtrar(categoria.id, value, 'categoria')}
+            onChange={async (value) => await props.filtrar(categoria.id, value, 'categoriasIds')}
             value={props.categoriasIds.some((x) => x === categoria.id)}
             label={categoria.descricao}
           />
@@ -245,7 +255,7 @@ function MenuFiltro(props: MenuFiltroProps) {
         <BoxApp key={tamanho.id} display="flex" alignItems="center">
           <CheckBoxApp
             id={tamanho.id}
-            onChange={(value) => props.filtrar(tamanho.id, value, 'tamanho')}
+            onChange={async (value) => await props.filtrar(tamanho.id, value, 'tamanhosIds')}
             value={props.tamanhosIds.some((x) => x === tamanho.id)}
             label={tamanho.descricao}
           />
@@ -259,7 +269,7 @@ function MenuFiltro(props: MenuFiltroProps) {
         <BoxApp key={peso.id} display="flex" alignItems="center">
           <CheckBoxApp
             id={peso.id}
-            onChange={(value) => props.filtrar(peso.id, value, 'peso')}
+            onChange={async (value) => await props.filtrar(peso.id, value, 'pesosIds')}
             value={props.pesosIds.some((x) => x === peso.id)}
             label={peso.descricao}
           />
