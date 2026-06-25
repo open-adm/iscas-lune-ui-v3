@@ -91,7 +91,10 @@ export function ViewProduto() {
   }
 
   useEffect(() => {
-    if (!params?.slug || categorias.length === 0) return;
+    if (!params?.slug || categorias.length === 0) {
+      carregarProdutos([], [], [], 1);
+      return
+    }
 
     const slug = decodeURIComponent(params.slug as string ?? '');
 

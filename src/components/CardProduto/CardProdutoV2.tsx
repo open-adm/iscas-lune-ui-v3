@@ -3,7 +3,7 @@ import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { IProdutoEcommerce } from "@/types/Produto";
 import { cleanFormatMoney } from "@/utils/FormatMoney";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BoxApp } from "../Box/BoxApp";
 import { Button } from "../Button/ButtonApp";
 import { useSnackbar } from "../SnackBar/UseSnackBar";
@@ -28,6 +28,7 @@ export function CardProdutoV2(props: propsCardProduto) {
     excluirProdutoCarrinho,
     statusExcluirItem,
   } = useContext(AppCarrinhoContext);
+
   const { backgroundColor, borderRadius, isMobile } = useThemeApp();
   const width = "100%";
 
@@ -132,6 +133,14 @@ export function CardProdutoV2(props: propsCardProduto) {
       props.onBlur(produto);
     }
   }
+
+  useEffect(() => {
+    const atualizarProduto = () => {
+      setProduto(props.produto)
+    }
+
+    atualizarProduto();
+  }, [props.produto])
 
   return (
     <BoxApp

@@ -7,14 +7,14 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import { BoxApp } from "../Box/BoxApp";
+import { ChipApp } from "../Chip/ChipApp";
 import { DividerApp } from "../Divider/DividerApp";
 import { IconApp } from "../Icon/IconApp";
 import { IconButtonApp } from "../Icon/IconButtonApp";
-import { TextApp } from "../Text/TextApp";
 
 interface propsMenuApp {
   open: boolean;
@@ -32,7 +32,7 @@ export function MenuApp(props: propsMenuApp) {
 
   return (
     <Drawer open={props.open} onClose={props.close}>
-      <BoxApp width="250px">
+      <BoxApp width="250px" height="100vh">
         <BoxApp
           display="flex"
           alignItems="center"
@@ -41,47 +41,52 @@ export function MenuApp(props: propsMenuApp) {
         >
           <IconButtonApp icon={listaDeIcones.close} onClick={props.close} />
         </BoxApp>
+        <DividerApp />
         <BoxApp>
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu(rotas.home)}>
-                <ListItemIcon>
-                  <IconApp icon={listaDeIcones.home} />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu(rotas.produto)}>
-                <ListItemIcon>
-                  <IconApp icon={listaDeIcones.produto} />
-                </ListItemIcon>
-                <ListItemText primary="Todos produtos" />
-              </ListItemButton>
-            </ListItem>
-            <DividerApp chip="Categorias" />
-            {categorias.map((categoria) => (
-              <ListItem key={categoria.id} disablePadding>
-                <ListItemButton onClick={() => navigate(`${rotas.produto}/${categoria.descricao}`)}>
+          <List sx={{ height: "100%" }}>
+            <BoxApp height="100%" display="flex" flexDirection="column" justifyContent="space-between">
+              <BoxApp>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navegarMenu(rotas.home)}>
+                    <ListItemIcon>
+                      <IconApp icon={listaDeIcones.home} />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                  </ListItemButton>
+                </ListItem>
 
-                  <ListItemText primary={categoria.descricao} />
-                  <BoxApp display="flex" alignItems="center" gap="0.5rem">
-                    <TextApp titulo={String(categoria.quantidadeDeProdutos)} />
-                  </BoxApp>
-
-
-                </ListItemButton>
-              </ListItem>
-            ))}
-            <DividerApp />
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navegarMenu(rotas.minhaConta)}>
-                <ListItemIcon>
-                  <IconApp icon={listaDeIcones.avatar} />
-                </ListItemIcon>
-                <ListItemText primary="Minha conta" />
-              </ListItemButton>
-            </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navegarMenu(rotas.produto)}>
+                    <ListItemIcon>
+                      <IconApp icon={listaDeIcones.produto} />
+                    </ListItemIcon>
+                    <ListItemText primary="Todos produtos" />
+                  </ListItemButton>
+                </ListItem>
+                <DividerApp chip="Categorias" />
+                {categorias.map((categoria) => (
+                  <ListItem key={categoria.id} disablePadding>
+                    <ListItemButton onClick={() => navegarMenu(`${rotas.produto}/${categoria.descricao}`)}>
+                      <ListItemText primary={categoria.descricao} />
+                      <BoxApp display="flex" alignItems="center" gap="0.5rem">
+                        <ChipApp label={`${categoria.quantidadeDeProdutos}`} />
+                      </BoxApp>
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </BoxApp>
+              <BoxApp>
+                <DividerApp />
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => navegarMenu(rotas.minhaConta)}>
+                    <ListItemIcon>
+                      <IconApp icon={listaDeIcones.avatar} />
+                    </ListItemIcon>
+                    <ListItemText primary="Minha conta" />
+                  </ListItemButton>
+                </ListItem>
+              </BoxApp>
+            </BoxApp>
           </List>
         </BoxApp>
       </BoxApp>

@@ -3,7 +3,7 @@
 import { AlertApp } from "@/components/Alert/AlertApp";
 import { BoxApp } from "@/components/Box/BoxApp";
 import { Button } from "@/components/Button/ButtonApp";
-import { CardProduto } from "@/components/CardProduto/CardProduto";
+import { CardProdutoV2 } from "@/components/CardProduto/CardProdutoV2";
 import { GridApp } from "@/components/Grid/GridApp";
 import { LoadingApp } from "@/components/Loading/LoadingApp";
 import { TextApp } from "@/components/Text/TextApp";
@@ -11,7 +11,7 @@ import { rotas } from "@/config/ConfigRotas";
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
-import { IProduto } from "@/types/Produto";
+import { IProdutoEcommerce } from "@/types/Produto";
 import { useContext, useEffect } from "react";
 import { ViewResumoCarrinho } from "./ViewResumoCarrinho";
 
@@ -25,7 +25,7 @@ export function ViewCarrinho() {
   } = useContext(AppCarrinhoContext);
   const { navigate } = useNavigateApp();
 
-  function editarProduto(index: number, produto: IProduto) {
+  function editarProduto(index: number, produto: IProdutoEcommerce) {
     let newProdutos = [...produtos];
     newProdutos[index] = produto;
     setProdutos(newProdutos);
@@ -86,7 +86,7 @@ export function ViewCarrinho() {
                 <GridApp container spacing={2}>
                   {produtos.map((produto, index) => (
                     <GridApp sm={6} xs={12} md={6} lg={4} key={produto.id}>
-                      <CardProduto
+                      <CardProdutoV2
                         desabilitarBtnAddCarrinho
                         produto={produto}
                         habilitarExclusaoProduto

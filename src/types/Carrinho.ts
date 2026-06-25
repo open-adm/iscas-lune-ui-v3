@@ -1,7 +1,7 @@
 import { IEnderecoBase } from "./Base";
-import { IProduto } from "./Produto";
+import { IProdutoEcommerce } from "./Produto";
 
 export interface ICarrinho {
-  itens: IProduto[];
+  itens: IProdutoEcommerce[];
   enderecoUsuario?: IEnderecoBase;
 }

@@ -1,23 +1,23 @@
 "use client";
 
-import { ReactNode, createContext, useEffect, useState } from "react";
-import { keysLocalStorage } from "@/config/keysLocalStorage";
 import { useCarrinhoApi } from "@/api/UseCarrinhoApi";
+import { keysLocalStorage } from "@/config/keysLocalStorage";
 import { useLocalStorage } from "@/hooks/UseLocalStorage";
 import { IAdicionarProdutoCarrinho } from "@/types/AdicionarProdutoCarrinho";
-import { StatusRequisicao } from "@/types/StatusRequisicao";
-import { IProduto } from "@/types/Produto";
-import { removerItemDeArrayPorIndex } from "@/utils/RemoverItemDeArrayPorIndex";
 import { IEnderecoBase } from "@/types/Base";
+import { IProdutoEcommerce } from "@/types/Produto";
+import { StatusRequisicao } from "@/types/StatusRequisicao";
+import { removerItemDeArrayPorIndex } from "@/utils/RemoverItemDeArrayPorIndex";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 interface IAppCarrinhoContext {
   quantidadeItensCarrinho: number;
   adicionarItens: (itens: IAdicionarProdutoCarrinho[]) => Promise<any>;
-  setProdutos: (produtos: IProduto[]) => void;
+  setProdutos: (produtos: IProdutoEcommerce[]) => void;
   statusAdicionar?: StatusRequisicao;
   statusObterItens?: StatusRequisicao;
   statusExcluirItem?: StatusRequisicao;
-  produtos: IProduto[];
+  produtos: IProdutoEcommerce[];
   obterProdutos: () => Promise<void>;
   excluirProdutoCarrinho: (index: number) => Promise<void>;
   resetarCarrinho: () => void;
@@ -32,7 +32,7 @@ interface IAppCarrinhoProvider {
 export const AppCarrinhoContext = createContext({} as IAppCarrinhoContext);
 
 export function AppCarrinhoProvider(props: IAppCarrinhoProvider) {
-  const [produtos, setProdutos] = useState<IProduto[]>([]);
+  const [produtos, setProdutos] = useState<IProdutoEcommerce[]>([]);
   const [enderecoUsuario, setEnderecoUsuario] = useState<IEnderecoBase>();
   const [quantidadeItensCarrinho, setQuantidadeItensCarrinho] = useState(0);
   const {

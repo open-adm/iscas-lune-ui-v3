@@ -1,7 +1,6 @@
 import { useApi } from "@/hooks/UseApi";
 import { IAdicionarProdutoCarrinho } from "@/types/AdicionarProdutoCarrinho";
 import { ICarrinho } from "@/types/Carrinho";
-import { IProduto } from "@/types/Produto";
 
 export function useCarrinhoApi() {
   const apiQuantidadeItens = useApi({
@@ -21,7 +20,7 @@ export function useCarrinhoApi() {
 
   const apiObterItens = useApi({
     method: "GET",
-    url: "carrinho/get-carrinho",
+    url: "carrinho/get-carrinho-v2",
     statusInicial: "loading",
   });
 

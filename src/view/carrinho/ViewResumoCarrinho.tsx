@@ -22,25 +22,25 @@ export function ViewResumoCarrinho() {
   const { navigate } = useNavigateApp();
   const { show } = useSnackbar();
   const pesosComQuantidade = produtos.flatMap((x) =>
-    x.pesos.filter((y) => y.precoProduto?.quantidade)
+    x.pesos.filter((y) => y.quantidade)
   );
   const tamanhosComQuantidade = produtos.flatMap((x) =>
-    x.tamanhos.filter((y) => y.precoProduto?.quantidade)
+    x.tamanhos.filter((y) => y.quantidade)
   );
 
   const totalPorPeso = pesosComQuantidade.reduce(
     (valor, peso) =>
       valor +
-      (peso.precoProduto?.valorUnitario ?? 0) *
-      (peso.precoProduto?.quantidade ?? 0),
+      (peso.valorUnitario ?? 0) *
+      (peso.quantidade ?? 0),
     0
   );
 
   const totalPorTamanho = tamanhosComQuantidade.reduce(
     (valor, peso) =>
       valor +
-      (peso.precoProduto?.valorUnitario ?? 0) *
-      (peso.precoProduto?.quantidade ?? 0),
+      (peso.valorUnitario ?? 0) *
+      (peso.quantidade ?? 0),
     0
   );
 
@@ -68,25 +68,25 @@ export function ViewResumoCarrinho() {
     const body = [
       ...produtos.flatMap((produto) => {
         return produto.tamanhos
-          .filter((x) => x.precoProduto?.quantidade)
+          .filter((x) => x.quantidade)
           .map((tamanho) => {
             return {
               produtoId: produto.id,
               tamanhoId: tamanho.id,
-              quantidade: tamanho.precoProduto?.quantidade ?? 0,
-              valorUnitario: tamanho.precoProduto?.valorUnitario ?? 0,
+              quantidade: tamanho.quantidade ?? 0,
+              valorUnitario: tamanho.valorUnitario ?? 0,
             };
           });
       }),
       ...produtos.flatMap((produto) => {
         return produto.pesos
-          .filter((x) => x.precoProduto?.quantidade)
+          .filter((x) => x.quantidade)
           .map((peso) => {
             return {
               produtoId: produto.id,
               pesoId: peso.id,
-              quantidade: peso.precoProduto?.quantidade ?? 0,
-              valorUnitario: peso.precoProduto?.valorUnitario ?? 0,
+              quantidade: peso.quantidade ?? 0,
+              valorUnitario: peso.valorUnitario ?? 0,
             };
           });
       }),
