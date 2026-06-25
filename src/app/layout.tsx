@@ -18,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="b66396f6-cb57-4d43-9343-b298b1ee5b43"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
