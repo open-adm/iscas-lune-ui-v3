@@ -80,6 +80,7 @@ export function HomeView() {
                         fontSize: { xs: 16, sm: 20 },
                         lineHeight: 1.6,
                     }}
+                    variant="h1"
                 >
                     Iscas artificiais de desenvolvimento próprio
                     <br />
