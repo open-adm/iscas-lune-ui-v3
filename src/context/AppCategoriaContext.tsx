@@ -1,4 +1,4 @@
-import { useApi } from "@/hooks/UseApi";
+import { useCategoriaApi } from "@/api/UseCategoriaApi";
 import { ICategoria } from "@/types/Categoria";
 import { ReactNode, useEffect, useState } from "react";
 import { CategoriasContext } from "./hooks/UseCategoriaContext";
@@ -9,15 +9,11 @@ interface ICategoriasProvider {
 
 export function CategoriasProvider(props: ICategoriasProvider) {
     const [categorias, setCategorias] = useState<ICategoria[]>([]);
+    const { listar } = useCategoriaApi()
 
-    const api = useApi({
-        method: "GET",
-        url: "ecommerce/categorias/listar",
-        statusInicial: "loading",
-    });
 
     async function init() {
-        const response = await api.action<ICategoria[]>();
+        const response = await listar();
         setCategorias(response || []);
     }
 
@@ -30,7 +26,6 @@ export function CategoriasProvider(props: ICategoriasProvider) {
         <CategoriasContext.Provider
             value={{
                 categorias,
-                loadingCategorias: api.loading,
             }}
         >
             {props.children}
