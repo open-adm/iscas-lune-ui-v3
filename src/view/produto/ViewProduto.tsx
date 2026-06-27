@@ -4,6 +4,7 @@ import { usePesoApi } from "@/api/UsePesoTamanho";
 import { useProdutoApi } from "@/api/UseProdutoApi";
 import { useTamanhoApi } from "@/api/UseTamanhoApi";
 import { BoxApp } from "@/components/Box/BoxApp";
+import { BreadcrumbSchemaApp } from "@/components/BreadcrumbSchema/BreadcrumbSchemaApp";
 import { CardProdutoV2 } from "@/components/CardProduto/CardProdutoV2";
 import { CheckBoxApp } from "@/components/Checkbox/CheckBoxApp";
 import { DividerApp } from "@/components/Divider/DividerApp";
@@ -24,6 +25,33 @@ import { Drawer, Pagination } from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
 
 type TipoFiltro = 'categoriasIds' | 'pesosIds' | 'tamanhosIds';
+
+const breadcrumbs = [
+  {
+    name: "Home",
+    url: "https://loja.iscaslune.com.br",
+  },
+  {
+    name: "Produtos",
+    url: "https://loja.iscaslune.com.br/produto",
+  },
+  {
+    name: "Camarões",
+    url: "https://loja.iscaslune.com.br/produto/Camarões",
+  },
+  {
+    name: "Jig head 90°",
+    url: "https://loja.iscaslune.com.br/produto/Jig head 90°",
+  },
+  {
+    name: "Bonés",
+    url: "https://loja.iscaslune.com.br/produto/Bonés",
+  },
+  {
+    name: "Camisas",
+    url: "https://loja.iscaslune.com.br/produto/Camisas",
+  },
+];
 
 export function ViewProduto() {
   const { paginacaoProduto } = useProdutoApi();
@@ -126,6 +154,7 @@ export function ViewProduto() {
 
   return (
     <>
+      <BreadcrumbSchemaApp items={breadcrumbs} />
       <BoxApp padding="1rem" maxWidth="1200px">
         <>
           {isMobile && (
