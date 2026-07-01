@@ -25,6 +25,7 @@ jobs:
           echo "NEXT_PUBLIC_PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.production
           echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env.production
           echo "NEXT_PUBLIC_UMAMI_WEBSITE_ID=${{ secrets.UMAMI_WEBSITE_ID }}" >> .env.production
+          echo "NEXT_PUBLIC_UMAMI_WEBSITE_URL=${{ secrets.UMAMI_WEBSITE_URL }}" >> .env.production
           echo "$(<.env.production)"
 
       - name: Build Image
