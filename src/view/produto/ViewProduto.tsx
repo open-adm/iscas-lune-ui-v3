@@ -4,7 +4,6 @@ import { usePesoApi } from "@/api/UsePesoTamanho";
 import { useProdutoApi } from "@/api/UseProdutoApi";
 import { useTamanhoApi } from "@/api/UseTamanhoApi";
 import { BoxApp } from "@/components/Box/BoxApp";
-import { BreadcrumbSchemaApp } from "@/components/BreadcrumbSchema/BreadcrumbSchemaApp";
 import { CardProdutoV2 } from "@/components/CardProduto/CardProdutoV2";
 import { CheckBoxApp } from "@/components/Checkbox/CheckBoxApp";
 import { DividerApp } from "@/components/Divider/DividerApp";
@@ -14,7 +13,6 @@ import { IconButtonTooltipApp } from "@/components/Icon/IconButtonTooltipApp";
 import { TextApp } from "@/components/Text/TextApp";
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { useCategoriasContext } from "@/context/hooks/UseCategoriaContext";
-import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { ICategoria } from "@/types/Categoria";
 import { IPaginacaoResponse } from "@/types/PaginacaoResponse";
@@ -26,40 +24,16 @@ import { ReactNode, useEffect, useState } from "react";
 
 type TipoFiltro = 'categoriasIds' | 'pesosIds' | 'tamanhosIds';
 
-const breadcrumbs = [
-  {
-    name: "Home",
-    url: "https://loja.iscaslune.com.br",
-  },
-  {
-    name: "Produtos",
-    url: "https://loja.iscaslune.com.br/produto",
-  },
-  {
-    name: "Camarões",
-    url: "https://loja.iscaslune.com.br/produto/Camarões",
-  },
-  {
-    name: "Jig head 90°",
-    url: "https://loja.iscaslune.com.br/produto/Jig head 90°",
-  },
-  {
-    name: "Bonés",
-    url: "https://loja.iscaslune.com.br/produto/Bonés",
-  },
-  {
-    name: "Camisas",
-    url: "https://loja.iscaslune.com.br/produto/Camisas",
-  },
-];
+interface ViewProdutoProps {
+  slug?: string
+}
 
-export function ViewProduto() {
+export function ViewProduto(props: ViewProdutoProps) {
   const { paginacaoProduto } = useProdutoApi();
   const { isMobile } = useThemeApp();
   const { categorias } = useCategoriasContext()
   const { listarTamanhos } = useTamanhoApi();
   const { listarPesos } = usePesoApi();
-  const { params } = useNavigateApp();
 
   const [pagina, setPagina] = useState(1);
   const [open, setOpen] = useState(false);
@@ -99,7 +73,7 @@ export function ViewProduto() {
     setPagina(1);
 
     if (tipoFiltro === 'categoriasIds') {
-      const novasCategorias = value ? [...categoriasIds, id] : categoriasIds.filter(x => x !== id)
+      const novasCategorias = value ? [id] : []
       setCategoriasIds(novasCategorias);
 
       await carregarProdutos(novasCategorias, pesosIds, tamanhosIds, 1)
@@ -119,12 +93,12 @@ export function ViewProduto() {
   }
 
   useEffect(() => {
-    if (!params?.slug || categorias.length === 0) {
+    if (!props?.slug || categorias.length === 0) {
       carregarProdutos([], [], [], 1);
       return
     }
 
-    const slug = decodeURIComponent(params.slug as string ?? '');
+    const slug = decodeURIComponent(props.slug as string ?? '');
 
     const categoria = categorias.find(
       (x) => x.descricao.trim() === slug
@@ -136,7 +110,8 @@ export function ViewProduto() {
 
     carregarProdutos(novasCategoriasIds, [], [], 1);
     setCategoriasIds(novasCategoriasIds);
-  }, [params?.slug]);
+
+  }, [props?.slug]);
 
   useEffect(() => {
     async function carregarFiltros() {
@@ -152,9 +127,10 @@ export function ViewProduto() {
     carregarFiltros();
   }, []);
 
+  const categoria = categoriasIds?.length ? categorias.find((x) => x.id === categoriasIds[0]) : undefined
+
   return (
     <>
-      <BreadcrumbSchemaApp items={breadcrumbs} />
       <BoxApp padding="1rem" maxWidth="1200px">
         <>
           {isMobile && (
@@ -183,7 +159,11 @@ export function ViewProduto() {
           >
             <BoxApp>
               <TextApp titulo={"Catálogo"} />
-              <TextApp fontSize="20px" fontWeight={600} color="primary" titulo={"Todos os produtos"} />
+              {categoria ? (
+                <TextApp fontSize="20px" variant="h1" fontWeight={600} color="primary" titulo={categoria.descricao} />
+              ) : (
+                <TextApp fontSize="20px" fontWeight={600} color="primary" titulo={"Todos os produtos"} />
+              )}
             </BoxApp>
             {isMobile && (
               <IconButtonTooltipApp onClick={() => setOpen(true)} icon={listaDeIcones.filtro} titulo="Filtros" />

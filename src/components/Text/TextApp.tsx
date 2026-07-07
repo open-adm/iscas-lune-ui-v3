@@ -1,5 +1,5 @@
 import { useThemeApp } from '@/hooks/UseThemeApp';
-import { Typography } from '@mui/material';
+import { Typography, TypographyVariant } from '@mui/material';
 
 interface propsText {
   titulo: string;
@@ -23,13 +23,14 @@ interface propsText {
   textDecoration?: string;
   cursor?: string;
   onClick?: () => void;
+  variant?: TypographyVariant
 }
 
 export function TextApp(props: propsText) {
   const { cores } = useThemeApp();
   return (
     <Typography
-      variant='body2'
+      variant={props.variant ?? 'body2'}
       fontSize={props.fontSize}
       height={props.height}
       marginTop={props.marginTop}
