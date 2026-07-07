@@ -29,7 +29,7 @@ export function Footer() {
           <BoxApp display="flex" flexDirection="column">
             {categorias.map((categoria) => (
               <Button
-                onClick={() => navigate(`${rotas.categoria}/${categoria.id}`)}
+                onClick={() => navigate(`${rotas.produto}/${categoria.descricao}`)}
                 key={categoria.id}
                 title={categoria.descricao}
               />

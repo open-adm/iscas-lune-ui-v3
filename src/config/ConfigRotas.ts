@@ -2,7 +2,6 @@ export const rotas = {
   home: "/",
   produto: "/produto",
   lojaParceira: "/loja-parceira",
-  categoria: "/categoria",
   carrinho: "/carrinho",
   login: "/login",
   minhaConta: "/minha-conta",
