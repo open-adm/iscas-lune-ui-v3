@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import Script from "next/script";
+//import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -62,11 +62,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
-        <Script
+        {/* <Script
           src={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_URL}
           data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
           strategy="afterInteractive"
-        />
+        /> */}
       </head>
       <body className={`${poppins.className} body-principal`}>
         <Providers>
