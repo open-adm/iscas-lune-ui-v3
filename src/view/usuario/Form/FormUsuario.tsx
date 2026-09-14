@@ -1,23 +1,23 @@
 "use client";
 
 import { useFormikAdapter } from "@/adapters/FormikAdapter";
+import { useClienteApi } from "@/api/UseClienteApi";
+import { useCnpjApi } from "@/api/UseCnpjApi";
 import { BoxApp } from "@/components/Box/BoxApp";
 import { Button } from "@/components/Button/ButtonApp";
+import { GridApp } from "@/components/Grid/GridApp";
+import { InputApp, MaskType } from "@/components/Input/InputApp";
+import SelectApp from "@/components/Select/SelectApp";
+import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
+import { TextApp } from "@/components/Text/TextApp";
 import { rotas } from "@/config/ConfigRotas";
+import { AppAuthContext } from "@/context/AppAuthContext";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { useThemeApp } from "@/hooks/UseThemeApp";
 import { IUsuarioCreate } from "@/types/Usuario";
+import { clearMaskCpfCnpj, clearMaskPhone } from "@/utils/MaskCpfCnpj";
 import { useContext, useState } from "react";
 import { initialValues, schema, tiposPessoa } from "./Configuracao";
-import { InputApp, MaskType } from "@/components/Input/InputApp";
-import { TextApp } from "@/components/Text/TextApp";
-import SelectApp from "@/components/Select/SelectApp";
-import { GridApp } from "@/components/Grid/GridApp";
-import { clearMaskCpfCnpj, clearMaskPhone } from "@/utils/MaskCpfCnpj";
-import { useClienteApi } from "@/api/UseClienteApi";
-import { AppAuthContext } from "@/context/AppAuthContext";
-import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
-import { useCnpjApi } from "@/api/UseCnpjApi";
 
 export function FormUsuario() {
   const [tipoPessoa, setTipoPessoa] = useState(1);
@@ -40,8 +40,16 @@ export function FormUsuario() {
       return;
     }
 
+    const nome = form.values.nome.trim();
+
+    if (tipoPessoa === 2 && nome.split(/\s+/).length < 2) {
+      form.setError("nome", "Informe o nome e o sobrenome");
+      return;
+    }
+
     const body = {
       ...form.values,
+      nome,
       telefone: clearMaskPhone(form.values.telefone),
       cpf: clearMaskCpfCnpj(form.values.cpf),
       cnpj: clearMaskCpfCnpj(form.values.cpf),
@@ -106,6 +114,7 @@ export function FormUsuario() {
         marginTop="1rem"
         height="calc(100vh - 30px)"
         width="calc(100vw - 2rem)"
+        maxWidth="750px"
         overflowy="auto"
       >
         <TextApp
@@ -173,7 +182,7 @@ export function FormUsuario() {
             <InputApp
               fullWidth
               id="nome"
-              label="Nome"
+              label="Nome e sobrenome"
               maxLength={255}
               onChange={form.onChange}
               onBlur={form.onBlur}
