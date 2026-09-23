@@ -9,6 +9,12 @@ export function useLoginApi() {
     naoRenderizarResposta: true,
   });
 
+  const apiLogout = useApi({
+    method: "POST",
+    url: "login/logout",
+    naoRenderizarResposta: true,
+  });
+
   const apiLoginGoogle = useApi({
     method: "POST",
     url: "login/usuario/google",
@@ -19,6 +25,11 @@ export function useLoginApi() {
     body: IRequestLogin
   ): Promise<IResponseLogin | undefined> {
     return await apiLogin.action({ body });
+  }
+
+  async function logout(
+  ): Promise<any | undefined> {
+    return await apiLogout.action();
   }
 
   async function loginComGoogle(
@@ -40,5 +51,8 @@ export function useLoginApi() {
       fetch: loginComGoogle,
       status: apiLoginGoogle.status,
     },
+    logout: {
+      fetch: logout
+    }
   };
 }
