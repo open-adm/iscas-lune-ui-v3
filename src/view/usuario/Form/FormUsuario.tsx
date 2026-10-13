@@ -80,7 +80,7 @@ export function FormUsuario() {
       return;
     }
 
-    if (response.descricao_situacao_cadastral !== "ATIVA") {
+    if (response.ativa !== true) {
       show("CNPJ inativo!", "error");
       return;
     }
@@ -99,6 +99,7 @@ export function FormUsuario() {
     form.setValue({
       validouCnpj: true,
       nome: response.nome_fantasia,
+      telefone: response.ddd_telefone_1 || response.ddd_telefone_2 || "",
     });
   }
 

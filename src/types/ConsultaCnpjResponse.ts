@@ -42,6 +42,7 @@ export interface IConsultaCnpjResponse {
   capital_social: 0;
   codigo_porte: 0;
   porte: string;
+  ativa: boolean;
   ente_federativo_responsavel: string;
   descricao_porte: string;
   qsa: [
