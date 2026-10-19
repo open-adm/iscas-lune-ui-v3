@@ -3,6 +3,7 @@ import { AlertApp } from "@/components/Alert/AlertApp";
 import { BoxApp } from "@/components/Box/BoxApp";
 import { Button } from "@/components/Button/ButtonApp";
 import { DividerApp } from "@/components/Divider/DividerApp";
+import ModalApp from "@/components/Modal/ModalApp";
 import { useSnackbar } from "@/components/SnackBar/UseSnackBar";
 import { TextApp } from "@/components/Text/TextApp";
 import { rotas } from "@/config/ConfigRotas";
@@ -16,6 +17,8 @@ import { ViewTotalizadorCarrinho } from "./ViewTotalizadoCarrinho";
 
 export function ViewResumoCarrinho() {
   const [pedidoMinimo, setPedidoMinimo] = useState<IPedidoMinimo>();
+  const [modalPedidoFinalizadoAberto, setModalPedidoFinalizadoAberto] =
+    useState(false);
   const { obterPedidoMinimo, criarPedido } = UsePedidoApi();
   const { produtos, resetarCarrinho, enderecoUsuario } =
     useContext(AppCarrinhoContext);
@@ -101,9 +104,20 @@ export function ViewResumoCarrinho() {
       enderecoEntrega: enderecoUsuario,
     });
     if (response) {
+      if (pedidoMinimo?.mensagemPedidoFinalizado?.trim()) {
+        setModalPedidoFinalizadoAberto(true);
+        return;
+      }
+
       resetarCarrinho();
       navigate(rotas.pedidoFinalizado);
     }
+  }
+
+  function fecharModalPedidoFinalizado() {
+    setModalPedidoFinalizadoAberto(false);
+    resetarCarrinho();
+    navigate(rotas.home);
   }
 
   useEffect(() => {
@@ -111,85 +125,98 @@ export function ViewResumoCarrinho() {
   }, []);
 
   return (
-    <BoxApp
-      height="calc(100vh - 150px)"
-      display="flex"
-      flexDirection="column"
-      padding="1rem"
-    >
-      <TextApp titulo="Resumo" fontSize="18px" fontWeight={600} />
-      <DividerApp width="100%" />
-      <BoxApp
-        display="flex"
-        alignItems="start"
-        justifyContent="center"
-        flexDirection="column"
-        gap=".5rem"
-        width="100%"
-        marginTop="1rem"
-        height="100%"
+    <>
+      <ModalApp
+        fullWidth
+        maxWidth="sm"
+        open={modalPedidoFinalizadoAberto}
+        close={fecharModalPedidoFinalizado}
       >
-        <ViewTotalizadorCarrinho
-          titulo="Quantidade de produtos"
-          texto={`${produtos.length}`}
+        <TextApp
+          titulo={pedidoMinimo?.mensagemPedidoFinalizado ?? ""}
+          whiteSpace="pre-line"
         />
+      </ModalApp>
+      <BoxApp
+        height="calc(100vh - 150px)"
+        display="flex"
+        flexDirection="column"
+        padding="1rem"
+      >
+        <TextApp titulo="Resumo" fontSize="18px" fontWeight={600} />
+        <DividerApp width="100%" />
+        <BoxApp
+          display="flex"
+          alignItems="start"
+          justifyContent="center"
+          flexDirection="column"
+          gap=".5rem"
+          width="100%"
+          marginTop="1rem"
+          height="100%"
+        >
+          <ViewTotalizadorCarrinho
+            titulo="Quantidade de produtos"
+            texto={`${produtos.length}`}
+          />
 
-        <ViewTotalizadorCarrinho
-          titulo="Quantidade de tamanhos"
-          texto={`${tamanhosComQuantidade.length}`}
-        />
-        <ViewTotalizadorCarrinho
-          titulo="Quantidade de pesos"
-          texto={`${pesosComQuantidade.length}`}
-        />
+          <ViewTotalizadorCarrinho
+            titulo="Quantidade de tamanhos"
+            texto={`${tamanhosComQuantidade.length}`}
+          />
+          <ViewTotalizadorCarrinho
+            titulo="Quantidade de pesos"
+            texto={`${pesosComQuantidade.length}`}
+          />
+        </BoxApp>
+        <DividerApp width="100%" />
+        <BoxApp
+          height="100%"
+          display="flex"
+          alignItems="start"
+          justifyContent="center"
+          flexDirection="column"
+          gap=".5rem"
+          width="100%"
+          marginTop="1rem"
+        >
+          <ViewTotalizadorCarrinho
+            titulo="Total por peso"
+            texto={formatMoney(totalPorPeso) ?? ""}
+          />
+          <ViewTotalizadorCarrinho
+            titulo="Total por tamanho"
+            texto={formatMoney(totalPorTamanho) ?? ""}
+          />
+          <ViewTotalizadorCarrinho
+            titulo="Total"
+            texto={formatMoney(totalPedido) ?? ""}
+          />
+        </BoxApp>
+        <DividerApp width="100%" />
+        {pedidoMinimo?.pedidoMinimo && !naoFechouPedidoMinimo ? (
+          <AlertApp
+            tipo="error"
+            texto={`Atenção, pedido mínimo no valor de: ${formatMoney(
+              pedidoMinimo.pedidoMinimo
+            )}`}
+            sx={{ marginTop: "1rem" }}
+          />
+        ) : (
+          <></>
+        )}
+        <ViewEnderecoCarrinho />
+        <BoxApp marginTop="1rem">
+          <Button
+            disabled={!naoFechouPedidoMinimo}
+            title="Finalizar pedido"
+            variant="contained"
+            fullWidth
+            loading={criarPedido.status === "loading"}
+            onClick={submit}
+          />
+        </BoxApp>
       </BoxApp>
-      <DividerApp width="100%" />
-      <BoxApp
-        height="100%"
-        display="flex"
-        alignItems="start"
-        justifyContent="center"
-        flexDirection="column"
-        gap=".5rem"
-        width="100%"
-        marginTop="1rem"
-      >
-        <ViewTotalizadorCarrinho
-          titulo="Total por peso"
-          texto={formatMoney(totalPorPeso) ?? ""}
-        />
-        <ViewTotalizadorCarrinho
-          titulo="Total por tamanho"
-          texto={formatMoney(totalPorTamanho) ?? ""}
-        />
-        <ViewTotalizadorCarrinho
-          titulo="Total"
-          texto={formatMoney(totalPedido) ?? ""}
-        />
-      </BoxApp>
-      <DividerApp width="100%" />
-      {pedidoMinimo?.pedidoMinimo && !naoFechouPedidoMinimo ? (
-        <AlertApp
-          tipo="error"
-          texto={`Atenção, pedido mínimo no valor de: ${formatMoney(
-            pedidoMinimo.pedidoMinimo
-          )}`}
-          sx={{ marginTop: "1rem" }}
-        />
-      ) : (
-        <></>
-      )}
-      <ViewEnderecoCarrinho />
-      <BoxApp marginTop="1rem">
-        <Button
-          disabled={!naoFechouPedidoMinimo}
-          title="Finalizar pedido"
-          variant="contained"
-          fullWidth
-          loading={criarPedido.status === "loading"}
-          onClick={submit}
-        />
-      </BoxApp>
-    </BoxApp>
+    </>
   );
 }
