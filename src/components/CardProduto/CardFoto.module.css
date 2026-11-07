@@ -1,0 +1,23 @@
+.zoomButton {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
+  display: none;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.58);
+  cursor: zoom-in;
+  font-size: 24px;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .zoomButton {
+    display: grid;
+  }
+}
