@@ -16,7 +16,7 @@
     "axios": "^1.16.0",
     "crypto-js": "^4.2.0",
     "formik": "^2.4.9",
-    "next": "^16.2.4",
+    "next": "^16.4.5",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-spinners": "^0.17.0",
