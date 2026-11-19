@@ -3,13 +3,18 @@ import { Button } from "@/components/Button/ButtonApp";
 import { IconApp } from "@/components/Icon/IconApp";
 import { TextApp } from "@/components/Text/TextApp";
 import { rotas } from "@/config/ConfigRotas";
+import { AppAuthContext } from "@/context/AppAuthContext";
 import { useNavigateApp } from "@/hooks/UseNavigateApp";
 import { Box, Typography } from "@mui/material";
+import { useContext } from "react";
+import { AvisosUsuarioHome } from "./AvisosUsuarioHome";
 
 export function HomeView() {
     const { navigate } = useNavigateApp()
+    const { usuario } = useContext(AppAuthContext);
     return (
         <Box sx={{ position: "relative", overflow: "hidden" }}>
+            {usuario && <AvisosUsuarioHome key={usuario.id} />}
             {/* BACKGROUND */}
             <Box sx={{ position: "absolute", inset: 0 }}>
                 <Box
