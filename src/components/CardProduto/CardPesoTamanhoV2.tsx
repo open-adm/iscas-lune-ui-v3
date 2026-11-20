@@ -44,7 +44,7 @@ export function CardPesoTamanhoV2(props: propsCardPesoTamanho) {
                 maxLength={10}
               />
             </>
-          ) : <><ChipApp color="error" label="Sem estoque" /></>}
+          ) : <><ChipApp color="error" label="Esgotado" /></>}
         </BoxApp>
         {props.valorUnitario && (
           <TextApp fontWeight={600} fontSize="16px" color="success" titulo={`${formatMoney(props.valorUnitario)}`} />
