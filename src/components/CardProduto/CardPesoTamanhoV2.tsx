@@ -1,13 +1,9 @@
 import { formatMoney } from "@/utils/FormatMoney";
-import { BoxApp } from "../Box/BoxApp";
-import { ChipApp } from "../Chip/ChipApp";
-import { DividerApp } from "../Divider/DividerApp";
-import { InputApp, MaskType } from "../Input/InputApp";
 import { TextApp } from "../Text/TextApp";
+import styles from "./CarProduto.module.css";
 
 interface propsCardPesoTamanho {
   descricao: string;
-  id: string;
   valorUnitario?: number;
   quantidade?: number;
   onChange: (qtd?: number) => void;
@@ -17,43 +13,49 @@ interface propsCardPesoTamanho {
 }
 
 export function CardPesoTamanhoV2(props: propsCardPesoTamanho) {
-
-  const quantidadeEstoqueDisponivel = props.quantidadeEstoqueDisponivel ?? 0;
+  const estoque = props.quantidadeEstoqueDisponivel ?? 0;
 
   return (
-    <>
-
-      <BoxApp
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        height="100%"
-      >
-        <BoxApp display="flex" alignItems="center" gap="1rem" justifyContent="space-between">
-          <TextApp titulo={props.descricao} width="100%" maxWidth="50px" fontWeight={600} />
-          {props.temEstoqueDisponivel ? (
-            <>
-              <InputApp
-                label="QTD"
-                width="100px"
-                mask={MaskType.SOMENTE_NUMERO}
-                id={`${props.id}`}
-                value={props.quantidade}
-                onChange={(_, value) => props.onChange(value)}
-                onBlur={props.onBlur}
-                maxLength={10}
-              />
-            </>
-          ) : <><ChipApp color="error" label="Esgotado" /></>}
-        </BoxApp>
-        {props.valorUnitario && (
-          <TextApp fontWeight={600} fontSize="16px" color="success" titulo={`${formatMoney(props.valorUnitario)}`} />
-        )}
-      </BoxApp>
-      {quantidadeEstoqueDisponivel > 0 && (
-        <TextApp fontWeight={300} fontSize="12px" color="text.secondary" titulo={`Disponível: ${quantidadeEstoqueDisponivel}`} />
+    <div className={styles.linha}>
+      <div className={styles.identificacao}>
+        <span>{props.descricao}</span>
+        {!props.temEstoqueDisponivel ? (
+          <span className={styles.esgotado}>Esgotado</span>
+        ) : estoque > 0 ? (
+          <span className={styles.estoque}>
+            {estoque} {estoque === 1 ? "disponível" : "disponíveis"}
+          </span>
+        ) : null}
+      </div>
+      {props.temEstoqueDisponivel ? (
+        <input
+          className={styles.quantidade}
+          type="text"
+          inputMode="numeric"
+          aria-label={`Quantidade de ${props.descricao}`}
+          placeholder="0"
+          maxLength={10}
+          value={props.quantidade ?? ""}
+          onChange={(event) => {
+            const digitos = event.currentTarget.value.replace(/\D/g, "");
+            props.onChange(digitos ? Number(digitos) : undefined);
+          }}
+          onBlur={props.onBlur}
+        />
+      ) : (
+        <input
+          className={styles.quantidade}
+          aria-label={`Quantidade de ${props.descricao}`}
+          placeholder="—"
+          disabled
+        />
       )}
-      <DividerApp />
-    </>
+      <TextApp
+        titulo={props.valorUnitario != null ? formatMoney(props.valorUnitario) : "—"}
+        color={props.temEstoqueDisponivel ? "success" : "text.disabled"}
+        fontWeight={600}
+        textAlign="right"
+      />
+    </div>
   );
 }

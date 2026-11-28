@@ -1,13 +1,14 @@
 import { listaDeIcones } from "@/config/ListaDeIcones";
 import { AppCarrinhoContext } from "@/context/AppCarrinhoContext";
-import { useThemeApp } from "@/hooks/UseThemeApp";
 import { IProdutoEcommerce } from "@/types/Produto";
-import { cleanFormatMoney } from "@/utils/FormatMoney";
+import { cleanFormatMoney, formatMoney } from "@/utils/FormatMoney";
 import { useContext, useEffect, useState } from "react";
-import { BoxApp } from "../Box/BoxApp";
 import { Button } from "../Button/ButtonApp";
 import { useSnackbar } from "../SnackBar/UseSnackBar";
+import { useThemeApp } from "@/hooks/UseThemeApp";
+import { BoxApp } from "../Box/BoxApp";
 import { TextApp } from "../Text/TextApp";
+import styles from "./CarProduto.module.css";
 import { CardFoto } from "./CardFoto";
 import { CardPesoTamanhoV2 } from "./CardPesoTamanhoV2";
 
@@ -31,6 +32,20 @@ export function CardProdutoV2(props: propsCardProduto) {
 
   const { backgroundColor, borderRadius, isMobile } = useThemeApp();
   const width = "100%";
+  const grupos = [
+    { titulo: "Peso", itens: produto.pesos, onChange: onChangePeso },
+    { titulo: "Tamanho", itens: produto.tamanhos, onChange: onChangeTamanho },
+  ];
+  const { unidades, subtotal } = [...produto.pesos, ...produto.tamanhos].reduce(
+    (total, item) => {
+      const quantidade = cleanFormatMoney(item.quantidade) ?? 0;
+      return {
+        unidades: total.unidades + quantidade,
+        subtotal: total.subtotal + quantidade * (item.valorUnitario ?? 0),
+      };
+    },
+    { unidades: 0, subtotal: 0 }
+  );
 
   function onChangePeso(index: number, qtd?: number) {
     if (
@@ -150,7 +165,6 @@ export function CardProdutoV2(props: propsCardProduto) {
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
       }}
       borderRadius={borderRadius}
-      //padding="1rem"
       gap="1rem"
       backgroundColor={backgroundColor.card}
       flexDirection={"column"}
@@ -191,59 +205,44 @@ export function CardProdutoV2(props: propsCardProduto) {
           style={{ width: "100%", padding: '1rem' }}
           onSubmit={async (e) => {
             e.preventDefault();
-            await adicionar();
+            if (!props.desabilitarBtnAddCarrinho && statusAdicionar !== "loading") {
+              await adicionar();
+            }
           }}
         >
-          {produto.pesos?.length > 0 && (
-            <BoxApp
-              width="100%"
-              display="flex"
-              flexDirection="column"
-              gap=".5rem"
-            >
-              <TextApp titulo="Pesos disponíveis" marginBotton="1rem" />
-              {produto.pesos.map((peso, index) => (
-                <CardPesoTamanhoV2
-                  id={peso.id}
-                  quantidadeEstoqueDisponivel={peso.quantidadeEstoqueDisponivel}
-                  temEstoqueDisponivel={peso.temEstoqueDisponivel}
-                  onChange={(value) => onChangePeso(index, value)}
-                  descricao={peso.descricao}
-                  key={peso.id}
-                  quantidade={peso.quantidade}
-                  valorUnitario={peso.valorUnitario}
-                  onBlur={onBlur}
-                />
-              ))}
-            </BoxApp>
+          {grupos.map(({ titulo, itens, onChange }) =>
+            itens.length > 0 && (
+              <div key={titulo}>
+                <div className={styles.colunas}>
+                  <span>{titulo} / Estoque</span>
+                  <span>Quantidade</span>
+                  <span>Valor un.</span>
+                </div>
+                {itens.map((item, index) => (
+                  <CardPesoTamanhoV2
+                    key={item.id}
+                    descricao={item.descricao}
+                    quantidadeEstoqueDisponivel={item.quantidadeEstoqueDisponivel}
+                    temEstoqueDisponivel={item.temEstoqueDisponivel}
+                    quantidade={item.quantidade}
+                    valorUnitario={item.valorUnitario}
+                    onChange={(value) => onChange(index, value)}
+                    onBlur={onBlur}
+                  />
+                ))}
+              </div>
+            )
           )}
-          {produto.tamanhos?.length > 0 && (
-            <BoxApp
-              width="100%"
-              display="flex"
-              flexDirection="column"
-              gap=".5rem"
-            >
-              <TextApp
-                fontSize="12px"
-                titulo="Tamanhos disponíveis"
-                marginBotton="1rem"
-              />
-              {produto.tamanhos.map((tamanho, index) => (
-                <CardPesoTamanhoV2
-                  id={tamanho.id}
-                  quantidadeEstoqueDisponivel={tamanho.quantidadeEstoqueDisponivel}
-                  temEstoqueDisponivel={tamanho.temEstoqueDisponivel}
-                  onChange={(value) => onChangeTamanho(index, value)}
-                  key={tamanho.id}
-                  descricao={tamanho.descricao}
-                  onBlur={onBlur}
-                  valorUnitario={tamanho.valorUnitario}
-                  quantidade={tamanho.quantidade}
-                />
-              ))}
-            </BoxApp>
-          )}
+          <div className={styles.resumo}>
+            <div>
+              <span>Itens selecionados</span>
+              <strong>{unidades} {unidades === 1 ? "unidade" : "unidades"}</strong>
+            </div>
+            <div>
+              <span>Subtotal</span>
+              <strong>{formatMoney(subtotal)}</strong>
+            </div>
+          </div>
           <BoxApp width="100%" marginTop="1rem">
             {!props.desabilitarBtnAddCarrinho && (
               <Button
